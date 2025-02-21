@@ -1,3 +1,7 @@
+import Part1 from "./Part1";
+import Part2 from "./Part2";
+import { Part3 } from "./Part3";
+
 const Content = ({
   part1,
   part2,
@@ -8,15 +12,9 @@ const Content = ({
 }) => {
   return (
     <>
-      <p>
-        {part1} {exercises1}
-      </p>
-      <p>
-        {part2} {exercises2}
-      </p>
-      <p>
-        {part3} {exercises3}
-      </p>
+      <Part1 part1={part1} exercises1={exercises1} />
+      <Part2 part2={part2} exercises2={exercises2} />
+      <Part3 part3={part3} exercises3={exercises3} />
     </>
   );
 };
