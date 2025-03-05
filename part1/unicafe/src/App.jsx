@@ -28,9 +28,6 @@ const App = () => {
       <div>
         <h2>Staticits </h2>
         <div>
-          <p> good {good} </p>
-          <p>neutral {neutral}</p>
-          <p>bad {bad}</p>
           <Statistics good={good} bad={bad} neutral={neutral} />
         </div>
       </div>
