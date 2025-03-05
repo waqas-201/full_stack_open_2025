@@ -21,6 +21,21 @@ const App = () => {
     setVotes(newVotes);
   };
 
+  // Find the index of the anecdote with the most votes
+  const findMostVotedAnecdote = () => {
+    let maxVotes = votes[0];
+    let maxIndex = 0;
+    for (let i = 1; i < votes.length; i++) {
+      if (votes[i] > maxVotes) {
+        maxVotes = votes[i];
+        maxIndex = i;
+      }
+    }
+    return maxIndex;
+  };
+
+  const mostVotedIndex = findMostVotedAnecdote();
+
   return (
     <>
       <div>{anecdotes[selected]}</div>
@@ -30,6 +45,13 @@ const App = () => {
         next anecdote
       </button>
       <button onClick={handleVote}>vote</button>
+
+      <div>
+        <h3>anecdotes with most votes</h3>
+
+        <div>{anecdotes[mostVotedIndex]}</div>
+        <p>votes: {votes[mostVotedIndex]}</p>
+      </div>
     </>
   );
 };
