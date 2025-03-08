@@ -1,8 +1,11 @@
 import { useState } from "react";
 
 const App = () => {
-  const [persons, setPersons] = useState([{ name: "Arto Hellas" }]);
+  const [persons, setPersons] = useState([
+    { name: "Arto Hellas", number: "18738736187631" },
+  ]);
   const [newName, setNewName] = useState("");
+  const [number, setNumber] = useState("");
 
   //
 
@@ -20,6 +23,7 @@ const App = () => {
     e.preventDefault();
     const newPerson = {
       name: newName,
+      number: number,
     };
 
     const result = checkDuplicate(newName);
@@ -31,6 +35,7 @@ const App = () => {
 
     setPersons(persons.concat(newPerson));
   };
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -40,6 +45,14 @@ const App = () => {
           <input value={newName} onChange={(e) => setNewName(e.target.value)} />
         </div>
         <div>
+          number:
+          <input
+            type="text"
+            value={number}
+            onChange={(e) => setNumber(e.target.value)}
+          />
+        </div>
+        <div>
           <button type="submit" onClick={(e) => handleSetPerson(e)}>
             add
           </button>
@@ -47,7 +60,12 @@ const App = () => {
       </form>
       <h2>Numbers</h2>
       {persons.map((person) => {
-        return <p key={person.name}>{person.name}</p>;
+        return (
+          <div key={person.name}>
+            <p>name: {person.name}</p>
+            <p> number:{person.number}</p>
+          </div>
+        );
       })}
     </div>
   );
