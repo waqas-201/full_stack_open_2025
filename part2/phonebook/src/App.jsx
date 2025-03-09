@@ -2,8 +2,7 @@ import { useState, useEffect } from "react";
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
-import axios from "axios";
-
+import personServices from "./services /persons";
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
@@ -11,9 +10,7 @@ const App = () => {
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    axios
-      .get("http://localhost:3001/persons")
-      .then((result) => setPersons(result?.data));
+    personServices.getALl().then((responce) => setPersons(responce.data));
   }, []);
 
   let filterdPersons = !search
@@ -48,13 +45,9 @@ const App = () => {
       return;
     }
 
-   axios
-     .post("http://localhost:3001/persons", newPerson)
-     .then((responce) => setPersons(persons.concat(responce.data)));
-   
-
-
-    
+    personServices
+      .create(newPerson)
+      .then((responce) => setPersons(persons.concat(responce.data)));
   };
 
   return (
