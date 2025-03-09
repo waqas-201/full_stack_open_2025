@@ -50,22 +50,36 @@ const App = () => {
       .then((responce) => setPersons(persons.concat(responce.data)));
   };
 
-  return (
-    <div>
-      <h2>Phonebook</h2>
-      <Filter search={search} setSearch={setSearch} />
-      <h3>add a new </h3>
-      <PersonForm
-        newName={newName}
-        setNewName={setNewName}
-        number={number}
-        setNumber={setNumber}
-        handleSetPerson={handleSetPerson}
-      />
-      <h2>Numbers</h2>
-      <Persons filterdPersons={filterdPersons} />
-    </div>
-  );
+
+
+ const handleDeletePerson = (person) => {
+   const confirmDelete = window.confirm(`Delete ${person.name}?`);
+   if (!confirmDelete) return;
+
+   personServices.deletePerson(person.id).then(() => {
+     setPersons(persons.filter((p) => p.id !== person.id));
+   });
+ };
+
+ return (
+   <div>
+     <h2>Phonebook</h2>
+     <Filter search={search} setSearch={setSearch} />
+     <h3>add a new </h3>
+     <PersonForm
+       newName={newName}
+       setNewName={setNewName}
+       number={number}
+       setNumber={setNumber}
+       handleSetPerson={handleSetPerson}
+     />
+     <h2>Numbers</h2>
+     <Persons
+       filterdPersons={filterdPersons}
+       handleDeletePerson={handleDeletePerson}
+     />
+   </div>
+ );
 };
 
 export default App;
