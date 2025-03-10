@@ -6,10 +6,14 @@ const getALl = () => {
 };
 
 const create = (newObject) => {
+  console.log("create called ");
+  
   return axios.post(baseUrl, newObject);
 };
 
 const update = (newObject, id) => {
+  console.log("update triggerd");
+  
   return axios.put(`${baseUrl}/${id}`, newObject);
 };
 

@@ -3,7 +3,7 @@ const Persons = ({ filterdPersons, handleDeletePerson }) => {
     <>
       {filterdPersons.map((person) => {
         return (
-          <div key={person.name}>
+          <div key={person.id}>
             <div>
               <p>name: {person.name}</p>
               <p> number:{person.number}</p>

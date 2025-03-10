@@ -24,10 +24,11 @@ const App = () => {
     const result = persons.find((val) => {
       return val.name === value;
     });
+
     if (result?.name) {
-      return true;
+      return { id: result.id, success: true };
     }
-    return false;
+    return { id: undefined, success: false };
   };
 
   const handleSetPerson = (e) => {
@@ -40,14 +41,26 @@ const App = () => {
 
     const result = checkDuplicate(newName);
 
-    if (result) {
-      alert(`${newName}  is already added to phonebook`);
-      return;
+    if (result.success) {
+      // it means we found duplicate value
+      const confirmUpdate = window.confirm(
+        `${newName}  is already added to phonebook do you want to replace the old number with the new one?`
+      );
+
+      // if its not no it means it is yes and we will go ahead
+      if (confirmUpdate) {
+        personServices.update(newPerson, result.id).then(() => {
+          personServices.getALl().then((responce) => setPersons(responce.data));
+        });
+      }
+      if (!confirmUpdate) return; // if confirm if no we will stop here
     }
 
-    personServices
-      .create(newPerson)
-      .then((responce) => setPersons(persons.concat(responce.data)));
+    if (!result.success) {
+      personServices
+        .create(newPerson)
+        .then((responce) => setPersons(persons.concat(responce.data)));
+    }
   };
 
 
