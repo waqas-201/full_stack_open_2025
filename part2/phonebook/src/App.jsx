@@ -3,11 +3,14 @@ import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
 import personServices from "./services /persons";
+import { Notification } from "./components/Notification";
+import { NotificationSuccess } from "./components/NotificationSuccess";
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [number, setNumber] = useState("");
   const [search, setSearch] = useState("");
+  const [success, setSuccess] = useState(false);
 
   useEffect(() => {
     personServices.getALl().then((responce) => setPersons(responce.data));
@@ -57,42 +60,47 @@ const App = () => {
     }
 
     if (!result.success) {
-      personServices
-        .create(newPerson)
-        .then((responce) => setPersons(persons.concat(responce.data)));
+      personServices.create(newPerson).then((responce) => {
+        setPersons(persons.concat(responce.data));
+        setSuccess(true);
+        setTimeout(() => {
+          setSuccess(false);
+        }, 3000);
+      });
     }
   };
 
+  const handleDeletePerson = (person) => {
+    const confirmDelete = window.confirm(`Delete ${person.name}?`);
+    if (!confirmDelete) return;
 
+    personServices.deletePerson(person.id).then(() => {
+      setPersons(persons.filter((p) => p.id !== person.id));
+    });
+  };
 
- const handleDeletePerson = (person) => {
-   const confirmDelete = window.confirm(`Delete ${person.name}?`);
-   if (!confirmDelete) return;
+  return (
+    <div>
+      <h2>Phonebook</h2>
+      <Filter search={search} setSearch={setSearch} />
+      <h3>add a new </h3>
+      <PersonForm
+        newName={newName}
+        setNewName={setNewName}
+        number={number}
+        setNumber={setNumber}
+        handleSetPerson={handleSetPerson}
+      />
+      <h2>Numbers</h2>
 
-   personServices.deletePerson(person.id).then(() => {
-     setPersons(persons.filter((p) => p.id !== person.id));
-   });
- };
+      {success ? <NotificationSuccess message={newName} /> : null}
 
- return (
-   <div>
-     <h2>Phonebook</h2>
-     <Filter search={search} setSearch={setSearch} />
-     <h3>add a new </h3>
-     <PersonForm
-       newName={newName}
-       setNewName={setNewName}
-       number={number}
-       setNumber={setNumber}
-       handleSetPerson={handleSetPerson}
-     />
-     <h2>Numbers</h2>
-     <Persons
-       filterdPersons={filterdPersons}
-       handleDeletePerson={handleDeletePerson}
-     />
-   </div>
- );
+      <Persons
+        filterdPersons={filterdPersons}
+        handleDeletePerson={handleDeletePerson}
+      />
+    </div>
+  );
 };
 
 export default App;
