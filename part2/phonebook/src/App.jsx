@@ -12,6 +12,8 @@ const App = () => {
   const [search, setSearch] = useState("");
   const [success, setSuccess] = useState(false);
 
+  const [errorMessage, setErrorMessage] = useState(null);
+
   useEffect(() => {
     personServices.getALl().then((responce) => setPersons(responce.data));
   }, []);
@@ -74,9 +76,17 @@ const App = () => {
     const confirmDelete = window.confirm(`Delete ${person.name}?`);
     if (!confirmDelete) return;
 
-    personServices.deletePerson(person.id).then(() => {
-      setPersons(persons.filter((p) => p.id !== person.id));
-    });
+    personServices
+      .deletePerson(person.id)
+      .then(() => {
+        setPersons(persons.filter((p) => p.id !== person.id));
+      })
+      .catch((error) => {
+        setErrorMessage(error.message);
+        setTimeout(() => {
+          setErrorMessage(null);
+        }, 3000);
+      });
   };
 
   return (
@@ -94,7 +104,7 @@ const App = () => {
       <h2>Numbers</h2>
 
       {success ? <NotificationSuccess message={newName} /> : null}
-
+      {errorMessage ? <Notification message={errorMessage} /> : null}
       <Persons
         filterdPersons={filterdPersons}
         handleDeletePerson={handleDeletePerson}
