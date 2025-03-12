@@ -1,7 +1,9 @@
 const express = require("express");
 var morgan = require("morgan");
+var cors = require("cors");
 
 const app = express();
+app.use(cors());
 const PORT = 3001;
 app.use(express.json());
 
