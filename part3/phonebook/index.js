@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const PORT = 3001;
+app.use(express.json());
 
 const phoneBook = [
   {
@@ -35,6 +36,20 @@ app.get("/info", (req, res) => {
 
   res.send(`phonebook has info of ${phoneBook.length} peopels  ${reqTime}`);
 });
+
+app.get("/api/persons/:id", (req, res) => {
+  const { id } = req.params;
+  if (!id) {
+    res.status(404).end();
+  }
+
+  const person = phoneBook.find((person) => id === person.id);
+  if (!person) {
+    return res.status(404).end();
+  }
+  res.json(person);
+});
+
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
