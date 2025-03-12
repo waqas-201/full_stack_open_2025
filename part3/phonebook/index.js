@@ -37,12 +37,14 @@ app.get("/info", (req, res) => {
   res.send(`phonebook has info of ${phoneBook.length} peopels  ${reqTime}`);
 });
 
+
+
+
 app.get("/api/persons/:id", (req, res) => {
   const { id } = req.params;
   if (!id) {
-    res.status(404).end();
+    res.status(400).end();
   }
-
   const person = phoneBook.find((person) => id === person.id);
   if (!person) {
     return res.status(404).end();
@@ -50,6 +52,19 @@ app.get("/api/persons/:id", (req, res) => {
   res.json(person);
 });
 
+app.delete("/api/persons/:id", (req, res) => {
+  const { id } = req.params;
+  if (!id) {
+    res.status(400).end();
+  }
+
+  const filterdPersons = phoneBook.filter((person) => person.id !== id);
+  if (!filterdPersons) {
+    res.status(404).end();
+  }
+
+  res.json(filterdPersons);
+});
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
