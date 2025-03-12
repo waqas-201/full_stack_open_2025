@@ -30,15 +30,13 @@ app.get("/api/persons", (request, responce) => {
   responce.send(phoneBook);
 });
 
+
 app.get("/info", (req, res) => {
   const reqTime = new Date();
   console.log(reqTime.toString());
 
   res.send(`phonebook has info of ${phoneBook.length} peopels  ${reqTime}`);
 });
-
-
-
 
 app.get("/api/persons/:id", (req, res) => {
   const { id } = req.params;
@@ -65,6 +63,15 @@ app.delete("/api/persons/:id", (req, res) => {
 
   res.json(filterdPersons);
 });
+
+app.post("/api/persons/", (req, res) => {
+  const { name, number } = req.body;
+  const id = Math.floor(Math.random(1000000) * 10000);
+  const person = { id: String(id), name, number };
+  const result = phoneBook.concat(person);
+  res.json(result);
+});
+
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
