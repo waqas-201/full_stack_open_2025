@@ -66,6 +66,15 @@ app.delete("/api/persons/:id", (req, res) => {
 
 app.post("/api/persons/", (req, res) => {
   const { name, number } = req.body;
+
+  if (!name || !number) {
+    return res.status(400).json({ error: "name and number are missing " });
+  }
+
+  const isPersoneExists = phoneBook.find((person) => name === person.name);
+  if (isPersoneExists) {
+    return res.status(400).json({ error: "name already Exists" });
+  }
   const id = Math.floor(Math.random(1000000) * 10000);
   const person = { id: String(id), name, number };
   const result = phoneBook.concat(person);
