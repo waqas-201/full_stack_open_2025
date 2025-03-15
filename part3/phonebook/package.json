@@ -4,13 +4,17 @@
   "description": "phonebook backend service ",
   "main": "index.js",
   "scripts": {
+    "start": "node -r dotenv/config index.js",
+    "dev": "nodemon --exec 'node -r dotenv/config index.js'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "waqas",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "mongoose": "^8.12.1",
     "morgan": "^1.10.0",
     "nodemon": "^3.1.9"
   }
