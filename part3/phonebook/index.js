@@ -3,6 +3,7 @@ var morgan = require("morgan");
 var cors = require("cors");
 const phoneBook = require("./phoneBook");
 require("dotenv").config();
+const errorHandler = require("./middlewares/errorHandler.js");
 
 const app = express();
 app.use(cors());
@@ -45,6 +46,42 @@ app.post("/api/persons/", async (req, res) => {
   const savedPerson = await person.save();
   res.json(savedPerson);
 });
+
+app.get("/api/persons/:id", async (req, res, next) => {
+  const { id } = req.params;
+  if (!id) {
+    res.status(400).end();
+  }
+  try {
+    const person = await phoneBook.findById(id);
+    if (!person) {
+      return res.status(404).end();
+    }
+    res.json(person);
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.delete("/api/persons/:id", async (req, res, next) => {
+  const { id } = req.params;
+  if (!id) {
+    return res.status(400).end();
+  }
+  try {
+    const deletePerson = await phoneBook.findByIdAndDelete(id);
+    if (!deletePerson) {
+      throw new Error("no person found");
+    }
+
+    res.status(204).end();
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.use(errorHandler);
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
