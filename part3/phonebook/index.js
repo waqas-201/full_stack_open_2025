@@ -30,7 +30,21 @@ app.get("/info", (req, res) => {
   res.send(`phonebook has info of ${phoneBook.length} peopels  ${reqTime}`);
 });
 
+app.post("/api/persons/", async (req, res) => {
+  const { name, number } = req.body;
 
+  if (!name || !number) {
+    return res.status(400).json({ error: "name and number are missing " });
+  }
+
+  const person = new phoneBook({
+    name: name,
+    number: number,
+  });
+
+  const savedPerson = await person.save();
+  res.json(savedPerson);
+});
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
