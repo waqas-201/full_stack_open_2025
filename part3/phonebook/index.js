@@ -24,6 +24,9 @@ app.get("/api/persons", async (req, res) => {
   return res.json(data);
 });
 
+
+
+
 app.get("/info", (req, res) => {
   const reqTime = new Date();
   console.log(reqTime.toString());
@@ -80,6 +83,20 @@ app.put("/api/persons", async (req, res, next) => {
     console.log(updatedPhoneBook);
 
     res.json(updatedPhoneBook);
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.get("/api/persons/:id", async (req, res, next) => {
+  const { id } = req.params;
+  if (!id) {
+    res.json({ error: "id not found " });
+  }
+
+  try {
+    const person = await phoneBook.findById(id);
+    res.json(person);
   } catch (error) {
     next(error);
   }
