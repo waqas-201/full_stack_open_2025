@@ -31,7 +31,7 @@ app.get("/info", (req, res) => {
   res.send(`phonebook has info of ${phoneBook.length} peopels  ${reqTime}`);
 });
 
-app.post("/api/persons/", async (req, res) => {
+app.post("/api/persons", async (req, res) => {
   const { name, number } = req.body;
 
   if (!name || !number) {
@@ -58,6 +58,28 @@ app.delete("/api/persons/:id", async (req, res, next) => {
   try {
     const deletedPerson = await phoneBook.findByIdAndDelete(id);
     console.log(deletedPerson);
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.put("/api/persons", async (req, res, next) => {
+  console.log(req.body);
+  const data = req.body;
+  console.log(data);
+
+  const { name } = req.body;
+  console.log(name);
+  try {
+    const updatedPhoneBook = await phoneBook.findOneAndUpdate(
+      { name: name },
+      data,
+      { new: true }
+    );
+
+    console.log(updatedPhoneBook);
+
+    res.json(updatedPhoneBook);
   } catch (error) {
     next(error);
   }
