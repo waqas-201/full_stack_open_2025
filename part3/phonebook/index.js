@@ -2,6 +2,7 @@ const express = require("express");
 var morgan = require("morgan");
 var cors = require("cors");
 const phoneBook = require("./phoneBook");
+const errorHandler = require("./errorHandler");
 require("dotenv").config();
 
 const app = express();
@@ -46,7 +47,6 @@ app.post("/api/persons/", async (req, res) => {
   res.json(savedPerson);
 });
 
-
 app.delete("/api/persons/:id", async (req, res, next) => {
   console.log(req.params);
 
@@ -63,9 +63,7 @@ app.delete("/api/persons/:id", async (req, res, next) => {
   }
 });
 
-
-
-
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
