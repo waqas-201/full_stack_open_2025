@@ -45,6 +45,28 @@ app.post("/api/persons/", async (req, res) => {
   const savedPerson = await person.save();
   res.json(savedPerson);
 });
+
+
+app.delete("/api/persons/:id", async (req, res, next) => {
+  console.log(req.params);
+
+  const { id } = req.params;
+  if (!id) {
+    return res.json({ error: "id not found" });
+  }
+
+  try {
+    const deletedPerson = await phoneBook.findByIdAndDelete(id);
+    console.log(deletedPerson);
+  } catch (error) {
+    next(error);
+  }
+});
+
+
+
+
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
