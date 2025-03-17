@@ -17,7 +17,16 @@ mongoose
 
 const personSchema = new mongoose.Schema({
   name: { type: String, minLength: 5, required: true },
-  number: { type: Number, required: true },
+  number: {
+    type: String, // Use String instead of Number
+    required: [true, "User phone number required"],
+    validate: {
+      validator: function (v) {
+        return /^\d{2,3}-\d{6,8}$/.test(v); // Correct regex syntax
+      },
+      message: (props) => `${props.value} is not a valid phone number!`,
+    },
+  },
 });
 
 module.exports = mongoose.model("phonebook", personSchema);

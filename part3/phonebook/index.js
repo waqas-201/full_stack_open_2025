@@ -37,10 +37,6 @@ app.get("/info", (req, res) => {
 app.post("/api/persons", async (req, res, next) => {
   const { name, number } = req.body;
 
-  if (!name || !number) {
-    return res.status(400).json({ error: "name and number are missing " });
-  }
-
   const person = new phoneBook({
     name: name,
     number: number,
