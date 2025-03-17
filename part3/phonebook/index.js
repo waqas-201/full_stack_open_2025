@@ -34,7 +34,7 @@ app.get("/info", (req, res) => {
   res.send(`phonebook has info of ${phoneBook.length} peopels  ${reqTime}`);
 });
 
-app.post("/api/persons", async (req, res) => {
+app.post("/api/persons", async (req, res, next) => {
   const { name, number } = req.body;
 
   if (!name || !number) {
@@ -45,9 +45,12 @@ app.post("/api/persons", async (req, res) => {
     name: name,
     number: number,
   });
-
-  const savedPerson = await person.save();
-  res.json(savedPerson);
+  try {
+    const savedPerson = await person.save();
+    res.json(savedPerson);
+  } catch (error) {
+    next(error);
+  }
 });
 
 app.delete("/api/persons/:id", async (req, res, next) => {
