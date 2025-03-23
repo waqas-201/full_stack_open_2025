@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "node --test"
+    "start": "NODE_ENV=production node index.js",
+    "dev": "NODE_ENV=development node --watch index.js",
+    "test": "NODE_ENV=test node --test"
   },
   "author": "waqas",
   "license": "ISC",
@@ -13,5 +15,8 @@
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "mongoose": "^8.12.1"
+  },
+  "devDependencies": {
+    "supertest": "^7.1.0"
   }
 }
