@@ -2,6 +2,7 @@ const blogRouter = require("express").Router();
 const Blog = require("../models/blog");
 
 blogRouter.get("/", async (request, response) => {
+  console.log("api hit on   /api/blogs ");
   const result = await Blog.find({});
   response.json(result);
 });
