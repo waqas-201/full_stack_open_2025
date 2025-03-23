@@ -38,10 +38,10 @@ const App = () => {
 
   const handleSetPerson = (e) => {
     e.preventDefault();
+
     const newPerson = {
       name: newName,
       number: number,
-      id: Number(persons.length + 1),
     };
 
     const result = checkDuplicate(newName);
@@ -54,21 +54,41 @@ const App = () => {
 
       // if its not no it means it is yes and we will go ahead
       if (confirmUpdate) {
-        personServices.update(newPerson, result.id).then(() => {
-          personServices.getALl().then((responce) => setPersons(responce.data));
-        });
+        personServices
+          .update(newPerson)
+          .then(() => {
+            personServices.getALl().then((responce) => {
+              setPersons(responce.data);
+            });
+          })
+          .catch((error) => {
+            console.log(error.responce);
+
+            setErrorMessage(error?.response?.data.error);
+            setTimeout(() => {
+              setErrorMessage(null);
+            }, 3000);
+          });
       }
       if (!confirmUpdate) return; // if confirm if no we will stop here
     }
 
     if (!result.success) {
-      personServices.create(newPerson).then((responce) => {
-        setPersons(persons.concat(responce.data));
-        setSuccess(true);
-        setTimeout(() => {
-          setSuccess(false);
-        }, 3000);
-      });
+      personServices
+        .create(newPerson)
+        .then((responce) => {
+          setPersons(persons.concat(responce.data));
+          setSuccess(true);
+          setTimeout(() => {
+            setSuccess(false);
+          }, 3000);
+        })
+        .catch((error) => {
+          setErrorMessage(error?.response?.data.error);
+          setTimeout(() => {
+            setErrorMessage(null);
+          }, 3000);
+        });
     }
   };
 
