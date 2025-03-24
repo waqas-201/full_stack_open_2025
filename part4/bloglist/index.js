@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const blogRouter = require("./controllers/blogs");
 const { MONGODB_URI } = require("./utils/config");
 const { PORT } = require("./utils/config");
+const Blog = require("./models/blog");
 
 const app = express();
 
@@ -17,8 +18,8 @@ app.use("/api/blogs", blogRouter);
 // Connect to MongoDB
 mongoose
   .connect(MONGODB_URI)
-  .then(() => {
-    console.log("Connected to MongoDB");
+  .then(async () => {
+    console.log("connected to database successfully!");
   })
   .catch((error) => {
     console.error("Error connecting to MongoDB:", error.message);
