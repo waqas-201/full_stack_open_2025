@@ -36,6 +36,24 @@ blogRouter.delete("/:id", async (request, response, next) => {
   }
 });
 
+blogRouter.patch("/:id", async (request, response, next) => {
+  const { id } = request.params;
+  const data = request.body;
+
+  if (!id) {
+    return response.status(400).json({ error: "id param is missing" });
+  }
+
+  try {
+    const result = await Blog.findByIdAndUpdate(id, data, { new: true });
+    response.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+});
+
+
+
 module.exports = blogRouter;
 
 
