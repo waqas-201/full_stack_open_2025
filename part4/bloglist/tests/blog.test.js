@@ -67,7 +67,7 @@ test("Write a test that verifies that making an HTTP POST request to the /api/bl
   assert.deepStrictEqual(postReponceData, postData);
 });
 
-test.only("Write a test that verifies that if the likes property is missing from the request, ", async () => {
+test("Write a test that verifies that if the likes property is missing from the request, ", async () => {
   // create data to seed db
   const postData = {
     title: "usman's first post",
@@ -85,7 +85,20 @@ test.only("Write a test that verifies that if the likes property is missing from
   assert("likes" in postReponce.body);
 });
 
+test.only("Write tests related to creating new blogs via the /api/blogs endpoint, that verify that if the title or url properties are missing from the request data,", async () => {
+  // create data to seed db
+  const postData = {
+    author: "usman",
+  };
 
+  // do a post request
+  await api
+    .post("/api/blogs")
+    .send(postData)
+    .expect(400)
+    .expect("Content-Type", /application\/json/);
+  // verify dos it took effect
+});
 
 
 
