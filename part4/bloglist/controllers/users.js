@@ -10,6 +10,28 @@ userRouter.post("/", async (req, res, next) => {
   if (!name || !userName || !password) {
     return res.status(400).json({ error: "required data is not provided" });
   }
+
+  if (userName.length < 3) {
+    return res
+      .status(400)
+      .json({ error: "username must me at least 3 char long" });
+  }
+
+  if (password.length < 3) {
+    return res
+      .status(400)
+      .json({ error: "password must me at least 3 char long" });
+  }
+  // check uniuqe
+  try {
+    const checkUniuqe = await User.findOne({ username: userName });
+    if (checkUniuqe) {
+      return res.status(409).json({ error: "username must me uniuqe" });
+    }
+  } catch (error) {
+    next(error);
+  }
+
   // hash password
   try {
     const salt = await bcrypt.genSalt(10);
@@ -23,6 +45,7 @@ userRouter.post("/", async (req, res, next) => {
     });
 
     const responce = await user.save();
+    responce.password = undefined;
     res.status(201).json(responce);
   } catch (error) {
     next(error);

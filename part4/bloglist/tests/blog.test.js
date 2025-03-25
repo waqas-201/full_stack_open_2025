@@ -20,7 +20,6 @@ beforeEach(async () => {
   // delete all blogs
   await Blog.deleteMany({});
   // seed new data
-
   const blogObject = blogs.map((blog) => {
     return new Blog(blog);
   });
@@ -85,7 +84,7 @@ test("Write a test that verifies that if the likes property is missing from the 
   assert("likes" in postReponce.body);
 });
 
-test.only("Write tests related to creating new blogs via the /api/blogs endpoint, that verify that if the title or url properties are missing from the request data,", async () => {
+test("Write tests related to creating new blogs via the /api/blogs endpoint, that verify that if the title or url properties are missing from the request data,", async () => {
   // create data to seed db
   const postData = {
     author: "usman",
