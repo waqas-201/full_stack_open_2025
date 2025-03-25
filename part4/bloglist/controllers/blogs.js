@@ -15,7 +15,6 @@ blogRouter.post("/", (request, response, next) => {
     return response.status(400).json({ error: "missing title property" });
   }
   const blog = new Blog({ ...request.body, likes: 0 });
-  console.log(blog);
 
   blog.save().then((result) => {
     response.status(201).json(result);
