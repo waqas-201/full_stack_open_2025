@@ -17,10 +17,7 @@ app.use("/api/users", userRouter);
 
 // Connect to MongoDB
 mongoose
-  .connect(MONGODB_URI, {
-    tls: true,
-    tlsAllowInvalidCertificates: true, // Only for development!
-  })
+  .connect(MONGODB_URI)
   .then(async () => {
     console.log("connected to database successfully!");
   })

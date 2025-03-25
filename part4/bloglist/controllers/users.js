@@ -1,6 +1,7 @@
 const userRouter = require("express").Router();
 const User = require("../models/user");
 const bcrypt = require("bcryptjs");
+const blogRouter = require("./blogs");
 
 userRouter.post("/", async (req, res, next) => {
   // get name username and password
@@ -54,15 +55,28 @@ userRouter.post("/", async (req, res, next) => {
 
 userRouter.get("/", async (req, res, next) => {
   try {
-    const responce = await User.find({});
+    const responce = await User.find({}).populate("blogs");
+
     const alterdResponce = responce.map((user) => {
       return {
         username: user.username,
         name: user.name,
         id: user.id,
+        blogs: {
+          ...user.blogs,
+        },
       };
     });
     res.status(200).json(alterdResponce);
+  } catch (error) {
+    next(error);
+  }
+});
+
+userRouter.delete("/", async (req, res, next) => {
+  try {
+    const deleteALlUsers = await User.deleteMany();
+    return res.status(200).json(deleteALlUsers);
   } catch (error) {
     next(error);
   }
