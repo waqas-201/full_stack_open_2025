@@ -7,6 +7,7 @@ const authRouter = require("./controllers/auth");
 const errorHandler = require("./utils/errorHandler");
 const { MONGODB_URI } = require("./utils/config");
 const tokenExtractor = require("./middlewares/tokenExtractor");
+const userExtractor = require("./middlewares/userExtractor");
 
 const app = express();
 
@@ -14,7 +15,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 // Routes
-app.use("/api/blogs", tokenExtractor, blogRouter);
+app.use("/api/blogs", tokenExtractor, userExtractor, blogRouter);
 app.use("/api/users", userRouter);
 app.use("/api/auth", authRouter);
 

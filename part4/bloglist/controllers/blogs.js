@@ -33,17 +33,11 @@ blogRouter.get("/", async (request, response, next) => {
 });
 
 blogRouter.post("/", async (request, response, next) => {
+  const user = request.user;
   const { title, author } = request.body;
   // we need to check user here also
 
   try {
-    const decodeToken = jwt.verify(request.token, SECRET);
-    const user = await User.findById(decodeToken.id);
-
-    if (!user) {
-      return response.status(400).json({ error: "user not found " });
-    }
-
     if (!title || !author) {
       return response
         .status(400)
@@ -63,17 +57,13 @@ blogRouter.post("/", async (request, response, next) => {
 blogRouter.delete("/:id", async (request, response, next) => {
   //we need id of the resouce we wanna delete
   const { id } = request.params;
+  const user = request.user;
   if (!id) {
     return response.status(400).json({ error: "id param is missing" });
   }
   //first user must be logged in to do this operation
   // only user who own blogspost can delete
   try {
-    const decodeToken = jwt.verify(request.token, SECRET);
-    const user = await User.findById(decodeToken.id);
-    if (!user) {
-      return response.status(400).json({ error: "user not found" });
-    }
     const result = await Blog.deleteOne({ _id: id, user: user.id });
 
     response.status(200).send(result);
