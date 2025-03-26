@@ -6,7 +6,7 @@ const { SECRET } = require("../utils/config");
 
 blogRouter.get("/", async (request, response, next) => {
   try {
-    const savedBlogPost = await Blog.find({}).populate("user");
+    const blogs = await Blog.find({}).populate("user");
     /// savedBlogPost.user.password = undefined;
 
     const sanitizedBlogs = blogs.map((blog) => {
@@ -36,17 +36,8 @@ blogRouter.post("/", async (request, response, next) => {
   const { title, author } = request.body;
   // we need to check user here also
 
-  const authorization = request.headers.authorization;
-  if (!authorization) {
-    return res.status(401).json({ error: "Authorization token is required" });
-  }
-  if (!authorization.startsWith("Bearer ")) {
-    return res.status(401).json({ error: "Invalid authorization format" });
-  }
-  const token = authorization.replace("Bearer ", "");
-
   try {
-    const decodeToken = jwt.verify(token, SECRET);
+    const decodeToken = jwt.verify(request.token, SECRET);
     const user = await User.findById(decodeToken.id);
 
     if (!user) {
