@@ -3,6 +3,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const blogRouter = require("./controllers/blogs");
 const userRouter = require("./controllers/users");
+const authRouter = require("./controllers/auth");
 const { MONGODB_URI } = require("./utils/config");
 
 const app = express();
@@ -14,6 +15,7 @@ app.use(express.json());
 // Routes
 app.use("/api/blogs", blogRouter);
 app.use("/api/users", userRouter);
+app.use("/api/auth", authRouter);
 
 // Connect to MongoDB
 mongoose

@@ -1,7 +1,6 @@
 const userRouter = require("express").Router();
 const User = require("../models/user");
 const bcrypt = require("bcryptjs");
-const blogRouter = require("./blogs");
 
 userRouter.post("/", async (req, res, next) => {
   // get name username and password
