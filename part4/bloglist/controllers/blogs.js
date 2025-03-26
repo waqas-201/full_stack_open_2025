@@ -66,9 +66,17 @@ blogRouter.delete("/:id", async (request, response, next) => {
   if (!id) {
     return response.status(400).json({ error: "id param is missing" });
   }
+  //first user must be logged in to do this operation
+  // only user who own blogspost can delete
   try {
-    await Blog.findByIdAndDelete(id);
-    response.status(200).end();
+    const decodeToken = jwt.verify(request.token, SECRET);
+    const user = await User.findById(decodeToken.id);
+    if (!user) {
+      return response.status(400).json({ error: "user not found" });
+    }
+    const result = await Blog.deleteOne({ _id: id, user: user.id });
+
+    response.status(200).send(result);
   } catch (error) {
     next(error);
   }
