@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const blogRouter = require("./controllers/blogs");
 const userRouter = require("./controllers/users");
 const authRouter = require("./controllers/auth");
+const errorHandler = require("./utils/errorHandler");
 const { MONGODB_URI } = require("./utils/config");
 
 const app = express();
@@ -27,8 +28,5 @@ mongoose
     console.error("Error connecting to MongoDB:", error.message);
   });
 
-
-
-  console.log('file is working 1');
-  
+app.use(errorHandler);
 module.exports = app;

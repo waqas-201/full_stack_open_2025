@@ -2,6 +2,7 @@ const authRouter = require("express").Router();
 const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 var jwt = require("jsonwebtoken");
+const { SECRET } = require("../utils/config");
 
 authRouter.post("/login", async (req, res, next) => {
   const { username, password } = req.body;
@@ -29,13 +30,15 @@ authRouter.post("/login", async (req, res, next) => {
       {
         id: user.id,
       },
-      "secret",
+      SECRET,
       { expiresIn: "1h" }
     );
     // generate jwt token and send it back to user frontend
 
     res.status(200).send({ token, username: user.username, name: user.name });
-  } catch (error) {}
+  } catch (error) {
+    next(error);
+  }
 });
 
 module.exports = authRouter;

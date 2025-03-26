@@ -1,13 +1,15 @@
 const blogRouter = require("express").Router();
 const Blog = require("../models/blog");
 const User = require("../models/user");
+var jwt = require("jsonwebtoken");
+const { SECRET } = require("../utils/config");
 
 blogRouter.get("/", async (request, response, next) => {
   try {
     const savedBlogPost = await Blog.find({}).populate("user");
     /// savedBlogPost.user.password = undefined;
 
-    const sanitizedBlogs = savedBlogPost.map((blog) => {
+    const sanitizedBlogs = blogs.map((blog) => {
       const newUser = {
         username: blog.user.username,
         name: blog.user.name,
@@ -31,26 +33,33 @@ blogRouter.get("/", async (request, response, next) => {
 });
 
 blogRouter.post("/", async (request, response, next) => {
-  const { title, author, likes, userId } = request.body;
+  const { title, author } = request.body;
   // we need to check user here also
-  let user;
+
+  const authorization = request.headers.authorization;
+  if (!authorization) {
+    return res.status(401).json({ error: "Authorization token is required" });
+  }
+  if (!authorization.startsWith("Bearer ")) {
+    return res.status(401).json({ error: "Invalid authorization format" });
+  }
+  const token = authorization.replace("Bearer ", "");
+
   try {
-    user = await User.findById(userId);
+    const decodeToken = jwt.verify(token, SECRET);
+    const user = await User.findById(decodeToken.id);
 
     if (!user) {
       return response.status(400).json({ error: "user not found " });
     }
-  } catch (error) {
-    next(error);
-  }
 
-  if (!title || !author) {
-    return response
-      .status(400)
-      .json({ error: "missing one or more then one fields " });
-  }
-  const blog = new Blog({ ...request.body, likes: 0, user: userId });
-  try {
+    if (!title || !author) {
+      return response
+        .status(400)
+        .json({ error: "missing one or more then one fields " });
+    }
+    const blog = new Blog({ ...request.body, likes: 0, user: user.id });
+
     const savedBlogPost = await blog.save();
     user.blogs = user.blogs.concat(savedBlogPost.id);
     await user.save();
