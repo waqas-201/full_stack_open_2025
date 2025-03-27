@@ -5,7 +5,7 @@
   "scripts": {
     "start": "NODE_ENV=production node app.js",
     "dev": "NODE_ENV=development node --watch app.js",
-    "test": "NODE_ENV=test node --test"
+    "test": "NODE_ENV=test node --test --test-only"
   },
   "author": "waqas",
   "license": "ISC",

@@ -7,14 +7,15 @@ const { SECRET } = require("../utils/config");
 blogRouter.get("/", async (request, response, next) => {
   try {
     const blogs = await Blog.find({}).populate("user");
-    /// savedBlogPost.user.password = undefined;
-
-    const sanitizedBlogs = blogs.map((blog) => {
+    if (!blogs) {
+      return response.status(404).json({ error: "No blogs found" });
+    }
+    const sanitizedBlogs = blogs?.map((blog) => {
       const newUser = {
-        username: blog.user.username,
-        name: blog.user.name,
-        blogs: blog.user.blogs,
-        id: blog.user.id,
+        username: blog?.user?.username,
+        name: blog?.user?.name,
+        blogs: blog?.user?.blogs,
+        id: blog?.user?.id,
       };
 
       return {
@@ -25,7 +26,6 @@ blogRouter.get("/", async (request, response, next) => {
         id: blog.id,
       };
     });
-
     response.json(sanitizedBlogs);
   } catch (error) {
     next(error);
@@ -34,11 +34,11 @@ blogRouter.get("/", async (request, response, next) => {
 
 blogRouter.post("/", async (request, response, next) => {
   const user = request.user;
-  const { title, author } = request.body;
+  const { title, author, likes } = request.body;
   // we need to check user here also
 
   try {
-    if (!title || !author) {
+    if (!title || !author || !likes) {
       return response
         .status(400)
         .json({ error: "missing one or more then one fields " });
