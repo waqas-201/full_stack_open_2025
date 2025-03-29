@@ -7,40 +7,52 @@ const App = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
-
   const [user, setUser] = useState(null);
+  // blog state
+  const [title, setTitle] = useState("");
+  const [author, setAuthor] = useState("");
+  const [likes, setLikes] = useState(0);
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
   }, [user]);
 
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem("loggedNoteappUser");
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON);
+      setUser(user);
+      blogService.setToken(user.token);
+    }
+  }, []);
 
- useEffect(() => {
-   const loggedUserJSON = window.localStorage.getItem("loggedNoteappUser");
-   if (loggedUserJSON) {
-     const user = JSON.parse(loggedUserJSON);
-     setUser(user);
-     blogService.setToken(user.token);
-   }
- }, []);
+  const handleLogin = async (e) => {
+    e.preventDefault();
 
- const handleLogin = async (e) => {
-   e.preventDefault();
+    try {
+      const user = await blogService.login({ username, password });
+      window.localStorage.setItem("loggedNoteappUser", JSON.stringify(user));
+      blogService.setToken(user.token);
+      setUser(user);
+      setUsername("");
+      setPassword("");
+    } catch (error) {
+      setErrorMessage(error.response.data.error);
+      setTimeout(() => {
+        setErrorMessage(null);
+      }, 5000);
+    }
+  };
 
-   try {
-     const user = await blogService.login({ username, password });
-     window.localStorage.setItem("loggedNoteappUser", JSON.stringify(user));
-     blogService.setToken(user.token);
-     setUser(user);
-     setUsername("");
-     setPassword("");
-   } catch (error) {
-     setErrorMessage(error.response.data.error);
-     setTimeout(() => {
-       setErrorMessage(null);
-     }, 5000);
-   }
- };
+  const handleCreateBlog = async (e) => {
+    e.preventDefault();
+    try {
+      const responce = await blogService.create({ title, author, likes });
+      console.log(responce);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div>
@@ -74,6 +86,38 @@ const App = () => {
           {blogs.map((blog) => (
             <Blog key={blog.id} blog={blog} />
           ))}
+
+          <h1>create New </h1>
+          <form onSubmit={(e) => handleCreateBlog(e)}>
+            <div>
+              title
+              <input
+                type="text"
+                value={title}
+                name="title"
+                onChange={(e) => setTitle(e.target.value)}
+              />
+            </div>
+            <div>
+              author
+              <input
+                type="text"
+                value={author}
+                name="author"
+                onChange={(e) => setAuthor(e.target.value)}
+              />
+            </div>
+            <div>
+              author
+              <input
+                type="number"
+                value={likes}
+                name="likes"
+                onChange={(e) => setLikes(e.target.value)}
+              />
+            </div>
+            <button type="submit">create</button>
+          </form>
         </>
       )}
     </div>
