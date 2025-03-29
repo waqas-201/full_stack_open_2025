@@ -57,6 +57,20 @@ const App = () => {
   return (
     <div>
       {errorMessage ? <p style={{ color: "red" }}>{errorMessage}</p> : null}
+
+       {user ? (
+        <>
+          <p> username {user?.username}</p>
+          <button
+            onClick={() => {
+              localStorage.setItem("loggedNoteappUser", "");
+              setUser(null);
+            }}
+          >
+            logout
+          </button>
+        </>
+      ) : null}
       <p> username {user?.username}</p>
       {!user ? (
         <form onSubmit={(e) => handleLogin(e)}>
