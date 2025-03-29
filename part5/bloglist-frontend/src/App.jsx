@@ -14,22 +14,33 @@ const App = () => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
   }, [user]);
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
 
-    try {
-      const user = await blogService.login({ username, password });
-      blogService.setToken(user.token);
-      setUser(user);
-      setUsername("");
-      setPassword("");
-    } catch (error) {
-      setErrorMessage(error.response.data.error);
-      setTimeout(() => {
-        setErrorMessage(null);
-      }, 5000);
-    }
-  };
+ useEffect(() => {
+   const loggedUserJSON = window.localStorage.getItem("loggedNoteappUser");
+   if (loggedUserJSON) {
+     const user = JSON.parse(loggedUserJSON);
+     setUser(user);
+     blogService.setToken(user.token);
+   }
+ }, []);
+
+ const handleLogin = async (e) => {
+   e.preventDefault();
+
+   try {
+     const user = await blogService.login({ username, password });
+     window.localStorage.setItem("loggedNoteappUser", JSON.stringify(user));
+     blogService.setToken(user.token);
+     setUser(user);
+     setUsername("");
+     setPassword("");
+   } catch (error) {
+     setErrorMessage(error.response.data.error);
+     setTimeout(() => {
+       setErrorMessage(null);
+     }, 5000);
+   }
+ };
 
   return (
     <div>
