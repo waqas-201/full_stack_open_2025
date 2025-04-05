@@ -1,6 +1,8 @@
 import React from "react";
 
 const Notification = ({ message, type }) => {
+  console.log(message);
+  
   return (
     <>
       {message ? (

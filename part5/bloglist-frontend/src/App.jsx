@@ -16,6 +16,7 @@ const App = () => {
    const [showNotification, setShowNotification] = useState(false);
    const [message, setMessage] = useState("");
    const [type, setType] = useState("");
+   const [showCreate, setShowCreate] = useState(false);
 
    useEffect(() => {
      blogService.getAll().then((blogs) => setBlogs(blogs));
@@ -50,13 +51,11 @@ const App = () => {
        setUsername("");
        setPassword("");
      } catch (error) {
-       setErrorMessage(error.response.data.error);
        setShowNotification(true);
-
        setTimeout(() => {
          setShowNotification(false);
        }, 3000);
-       setMessage(error.response.data.error);
+       setMessage(error.response.data.error || error.message);
        setType("failed");
        setTimeout(() => {
          setErrorMessage(null);
@@ -68,8 +67,10 @@ const App = () => {
      e.preventDefault();
      try {
        const responce = await blogService.create({ title, author, likes });
-       console.log(responce);
        setBlogs(blogs.concat(responce));
+       setTitle("");
+       setAuthor("");
+       setLikes("");
        setShowNotification(true);
        setTimeout(() => {
          setShowNotification(false);
@@ -83,7 +84,7 @@ const App = () => {
          setShowNotification(false);
        }, 3000);
 
-       setMessage(error.response.data.error);
+       setMessage(error?.response?.data?.error);
        setType("failed");
        console.log(error);
      }
@@ -137,37 +138,46 @@ const App = () => {
              <Blog key={blog.id} blog={blog} />
            ))}
 
-           <h1>create New </h1>
-           <form onSubmit={(e) => handleCreateBlog(e)}>
-             <div>
-               title
-               <input
-                 type="text"
-                 value={title}
-                 name="title"
-                 onChange={(e) => setTitle(e.target.value)}
-               />
-             </div>
-             <div>
-               author
-               <input
-                 type="text"
-                 value={author}
-                 name="author"
-                 onChange={(e) => setAuthor(e.target.value)}
-               />
-             </div>
-             <div>
-               likes
-               <input
-                 type="number"
-                 value={likes}
-                 name="likes"
-                 onChange={(e) => setLikes(e.target.value)}
-               />
-             </div>
-             <button type="submit">create</button>
-           </form>
+           <button
+             onClick={() => {
+               setShowCreate(!showCreate);
+             }}
+           >
+             create New{" "}
+           </button>
+
+           {showCreate ? (
+             <form onSubmit={(e) => handleCreateBlog(e)}>
+               <div>
+                 title
+                 <input
+                   type="text"
+                   value={title}
+                   name="title"
+                   onChange={(e) => setTitle(e.target.value)}
+                 />
+               </div>
+               <div>
+                 author
+                 <input
+                   type="text"
+                   value={author}
+                   name="author"
+                   onChange={(e) => setAuthor(e.target.value)}
+                 />
+               </div>
+               <div>
+                 likes
+                 <input
+                   type="number"
+                   value={likes}
+                   name="likes"
+                   onChange={(e) => setLikes(e.target.value)}
+                 />
+               </div>
+               <button type="submit">create</button>
+             </form>
+           ) : null}
          </>
        )}
      </div>
