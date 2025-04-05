@@ -12,16 +12,18 @@ const CreateBlog = ({
   const [showCreate, setShowCreate] = useState(false);
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
+  const [url, setUrl] = useState("");
   const [likes, setLikes] = useState(0);
 
   const handleCreateBlog = async (e) => {
     e.preventDefault();
     try {
-      const responce = await blogService.create({ title, author, likes });
+      const responce = await blogService.create({ title, author, likes, url });
       setBlogs(blogs.concat(responce));
       setTitle("");
       setAuthor("");
       setLikes("");
+      setUrl("");
       setShowNotification(true);
       setTimeout(() => {
         setShowNotification(false);
@@ -73,6 +75,16 @@ const CreateBlog = ({
               value={author}
               name="author"
               onChange={(e) => setAuthor(e.target.value)}
+            />
+          </div>
+
+          <div>
+            url
+            <input
+              type="text"
+              value={url}
+              name="url"
+              onChange={(e) => setUrl(e.target.value)}
             />
           </div>
           <div>
