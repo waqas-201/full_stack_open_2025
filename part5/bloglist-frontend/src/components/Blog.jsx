@@ -1,7 +1,10 @@
 import { useState } from "react";
+import blogService from "../services/blogs";
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, setIsLikeAdded }) => {
   const [showDetails, setShowDetails] = useState(false);
+  const [totalLike, setTotalLikes] = useState(blog.likes);
+
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -9,6 +12,17 @@ const Blog = ({ blog }) => {
     borderWidth: 1,
     marginBottom: 5,
   };
+
+  const handleLike = async ({ id }) => {
+    setTotalLikes((prev) => prev + 1);
+    try {
+      await blogService.updateLike(id, totalLike);
+      setIsLikeAdded(true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div style={blogStyle}>
       title : {blog.title}
@@ -22,7 +36,19 @@ const Blog = ({ blog }) => {
       {showDetails ? (
         <div>
           <div> author : {blog.author}</div>
-          <div> url : {blog.url}</div>
+          <div>
+            url :<a href={`${blog.url}`}> {blog.url}</a>
+          </div>
+          <div>
+            Likes : {totalLike}
+            <button
+              onClick={() => {
+                handleLike({ id: blog.id });
+              }}
+            >
+              Like
+            </button>
+          </div>
         </div>
       ) : null}
     </div>

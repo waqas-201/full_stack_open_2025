@@ -14,11 +14,12 @@ const App = () => {
   const [showNotification, setShowNotification] = useState(false);
   const [message, setMessage] = useState("");
   const [type, setType] = useState("");
+  const [isLikeAdded, setIsLikeAdded] = useState(false);
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
-  }, [user]);
-
+  }, [user, isLikeAdded]);
+  // when our app components mounts first time it'll add toke to local storage and also with request headers
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedNoteappUser");
     if (loggedUserJSON) {
@@ -103,6 +104,7 @@ const App = () => {
         </form>
       ) : (
         <CreateBlog
+          setIsLikeAdded={setIsLikeAdded}
           blogs={blogs}
           setBlogs={setBlogs}
           setShowNotification={setShowNotification}

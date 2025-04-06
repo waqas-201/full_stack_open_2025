@@ -8,6 +8,7 @@ const CreateBlog = ({
   setShowNotification,
   setMessage,
   setType,
+  setIsLikeAdded,
 }) => {
   const [showCreate, setShowCreate] = useState(false);
   const [title, setTitle] = useState("");
@@ -46,7 +47,7 @@ const CreateBlog = ({
     <>
       <h2>Blogs</h2>
       {blogs.map((blog) => (
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} setIsLikeAdded={setIsLikeAdded} />
       ))}
 
       <button
