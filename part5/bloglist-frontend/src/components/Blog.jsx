@@ -23,36 +23,52 @@ const Blog = ({ blog, setIsLikeAdded }) => {
     }
   };
 
-  return (
-    <div style={blogStyle}>
-      title : {blog.title}
-      <button
-        onClick={() => {
-          setShowDetails(!showDetails);
-        }}
-      >
-        {showDetails ? "Hide" : "Show"}
-      </button>
-      {showDetails ? (
-        <div>
-          <div> author : {blog.author}</div>
-          <div>
-            url :<a href={`${blog.url}`}> {blog.url}</a>
-          </div>
-          <div>
-            Likes : {totalLike}
-            <button
-              onClick={() => {
-                handleLike({ id: blog.id });
-              }}
-            >
-              Like
-            </button>
-          </div>
-        </div>
-      ) : null}
-    </div>
-  );
+ const handleRemove = async (id) => {
+   const confirm = window.confirm(`Remove Blog ${blog.title}`);
+   console.log(confirm);
+   if (confirm) {
+     try {
+       await blogService.remove(id);
+     } catch (error) {
+       console.log(error);
+     }
+   }
+ };
+
+ return (
+   <div style={blogStyle}>
+     title : {blog.title}
+     <button
+       onClick={() => {
+         setShowDetails(!showDetails);
+       }}
+     >
+       {showDetails ? "Hide" : "Show"}
+     </button>
+     {showDetails ? (
+       <div>
+         <div> author : {blog.author}</div>
+         <div>
+           url :<a href={`${blog.url}`}> {blog.url}</a>
+         </div>
+         <div>
+           Likes : {totalLike}
+           <button
+             onClick={() => {
+               handleLike({ id: blog.id });
+             }}
+           >
+             Like
+           </button>
+         </div>
+
+         <div>
+           <button onClick={() => handleRemove(blog.id)}>remove</button>
+         </div>
+       </div>
+     ) : null}
+   </div>
+ );
 };
 
 export default Blog;

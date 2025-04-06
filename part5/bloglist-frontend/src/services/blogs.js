@@ -30,6 +30,16 @@ const setToken = (newToken) => {
    return response.data;
  };
 
+ const remove = async (id) => {
+   const config = {
+     headers: { Authorization: token },
+   };
+
+   const modifiedUrl = `${baseUrl}/${id}`;
+   const response = await axios.delete(modifiedUrl, config);
+   return response.data;
+ }; 
+
  const getAll = async () => {
    const config = {
      headers: { Authorization: token },
@@ -42,4 +52,4 @@ const setToken = (newToken) => {
    const response = await axios.post(loginUrl, credentials);
    return response.data;
  };
- export default { getAll, login, setToken, create, updateLike };
+ export default { getAll, login, setToken, create, updateLike, remove };
