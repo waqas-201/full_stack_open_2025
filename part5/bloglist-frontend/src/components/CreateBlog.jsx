@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Blog from "./Blog";
 import blogService from "../services/blogs";
 
@@ -15,6 +15,8 @@ const CreateBlog = ({
   const [author, setAuthor] = useState("");
   const [url, setUrl] = useState("");
   const [likes, setLikes] = useState(0);
+  const [applySort, setApplySort] = useState(false);
+  const [sorted, setSorted] = useState(blogs);
 
   const handleCreateBlog = async (e) => {
     e.preventDefault();
@@ -43,10 +45,25 @@ const CreateBlog = ({
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    if (applySort) {
+      const data = blogs.sort((a, b) => b.likes - a.likes);
+      setSorted(data);
+    }
+  }, [applySort, blogs]);
+
   return (
     <>
       <h2>Blogs</h2>
-      {blogs.map((blog) => (
+      <button
+        onClick={() => {
+          setApplySort(true);
+        }}
+      >
+        sort
+      </button>
+      {sorted.map((blog) => (
         <Blog key={blog.id} blog={blog} setIsLikeAdded={setIsLikeAdded} />
       ))}
 
