@@ -46,7 +46,9 @@ const CreateBlog = ({
     }
   };
 
+
   useEffect(() => {
+    setSorted(blogs);
     if (applySort) {
       const data = blogs.sort((a, b) => b.likes - a.likes);
       setSorted(data);
