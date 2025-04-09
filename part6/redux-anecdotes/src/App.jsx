@@ -1,22 +1,18 @@
 import { useSelector, useDispatch } from 'react-redux'
-import { getId } from "./reducers/anecdoteReducer";
+import { createAncedote, createVote } from "./reducers/actionCreators";
 
 const App = () => {
   const anecdotes = useSelector((state) => state);
   const dispatch = useDispatch();
 
   const vote = (id) => {
-    dispatch({ type: "Vote", payload: { id: id } });
+    dispatch(createVote(id));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const content = e.target.ancedote.value;
-    dispatch({
-      type: "Ancedote",
-      payload: { content: content, id: getId(), votes: 0 },
-    });
-
+    dispatch(createAncedote(content));
     e.target.ancedote.value = "";
   };
 
