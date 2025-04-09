@@ -1,11 +1,23 @@
 import { useSelector, useDispatch } from 'react-redux'
+import { getId } from "./reducers/anecdoteReducer";
 
 const App = () => {
-  const anecdotes = useSelector(state => state)
-  const dispatch = useDispatch()
+  const anecdotes = useSelector((state) => state);
+  const dispatch = useDispatch();
 
   const vote = (id) => {
     dispatch({ type: "Vote", payload: { id: id } });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const content = e.target.ancedote.value;
+    dispatch({
+      type: "Ancedote",
+      payload: { content: content, id: getId(), votes: 0 },
+    });
+
+    e.target.ancedote.value = "";
   };
 
   return (
@@ -21,14 +33,14 @@ const App = () => {
         </div>
       ))}
       <h2>create new</h2>
-      <form>
+      <form onSubmit={(e) => handleSubmit(e)}>
         <div>
-          <input />
+          <input name="ancedote" />
         </div>
-        <button>create</button>
+        <button type="submit">create</button>
       </form>
     </div>
   );
-}
+};
 
 export default App
