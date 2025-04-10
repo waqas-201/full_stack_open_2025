@@ -10,3 +10,9 @@ export const createAncedote = (content) => {
     payload: { content: content, id: getId(), votes: 0 },
   };
 };
+
+
+
+export const filterAncedote = (data) => {
+  return { type: "Filter", payload: { term: data } };
+};
