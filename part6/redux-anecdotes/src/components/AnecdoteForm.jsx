@@ -1,12 +1,12 @@
 import { useDispatch } from "react-redux";
-import { createAncedote } from "../reducers/actionCreators";
+import { createAncedote, getId } from "../slices/anecdoteSlice";
 
 const AnecdoteForm = () => {
   const dispatch = useDispatch();
   const handleSubmit = (e) => {
     e.preventDefault();
     const content = e.target.ancedote.value;
-    dispatch(createAncedote(content));
+    dispatch(createAncedote({ content: content, id: getId(), votes: 0 }));
     e.target.ancedote.value = "";
   };
   return (

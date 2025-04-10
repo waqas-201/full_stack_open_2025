@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { filterAncedote } from "../reducers/actionCreators";
+import { filterAnecdote } from "../slices/filterSlice";
 
 const Filter = () => {
   const dispatch = useDispatch();
@@ -7,7 +7,7 @@ const Filter = () => {
   const handleChange = (e) => {
     const data = e.target.value;
 
-    dispatch(filterAncedote(data));
+    dispatch(filterAnecdote({ term: data }));
   };
   const style = {
     marginBottom: 10,

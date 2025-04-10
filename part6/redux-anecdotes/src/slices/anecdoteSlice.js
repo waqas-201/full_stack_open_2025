@@ -1,4 +1,4 @@
-import { combineReducers } from "redux";
+import { createSlice } from "@reduxjs/toolkit";
 
 const anecdotesAtStart = [
   "If it hurts, do it more often",
@@ -20,34 +20,21 @@ const asObject = (anecdote) => {
 };
 
 const initialState = anecdotesAtStart.map(asObject);
-
-const anecdotsReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case "Vote":
+const anecdoteSlice = createSlice({
+  name: "anecdote",
+  initialState,
+  reducers: {
+    createVote: (state, action) => {
       return state.map((anecdote) =>
-        anecdote.id === action.payload.id
+        anecdote.id === action.payload
           ? { ...anecdote, votes: anecdote.votes + 1 }
           : anecdote
       );
-    case "Ancedote":
+    },
+    createAncedote: (state, action) => {
       return state.concat(action.payload);
-    default:
-      return state;
-  }
-};
-
-const filterReducer = (state = { filter: "" }, action) => {
-  switch (action.type) {
-    case "Filter":
-      console.log(state);
-
-      return (state.filter = action.payload);
-    default:
-      return state;
-  }
-};
-const reducer = combineReducers({
-  anecdote: anecdotsReducer,
-  filter: filterReducer,
+    },
+  },
 });
-export { reducer };
+export const { createVote, createAncedote } = anecdoteSlice.actions;
+export default anecdoteSlice.reducer;
