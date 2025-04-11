@@ -7,10 +7,10 @@ const notificationSlice = createSlice({
   initialState,
   reducers: {
     setNotificationMessage: (state, action) => {
-      return { ...state, message: action.payload };
+      state.message = action.payload; // <-- mutating style (Immer handles it)
     },
     removeNotificationMessage: (state) => {
-      return { ...state, message: "" };
+      state.message = "";
     },
   },
 });

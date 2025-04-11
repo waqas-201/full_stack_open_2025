@@ -7,32 +7,24 @@ import {
 
 const AnecdoteList = () => {
   const state = useSelector((state) => {
-    console.log(state);
+    if (state.filter.term) {
+      const filterd = state.anecdote.filter((anc) => {
+        return anc.content.includes(state.filter.term.term);
+      });
 
-    if (state?.filter?.term) {
-      const filterd = state.anecdote.filter((anc) =>
-        anc.content.includes(state.filter.term)
-      );
-
-      return { ...state, anecdotes: filterd };
+      return { ...state, anecdote: filterd };
     }
+
     return state;
   });
-
-  console.log(state);
 
   const dispatch = useDispatch();
 
   const vote = (id) => {
-    console.log(id);
-
     const data = dispatch(createVote(id));
-
-    console.log(data.payload);
 
     // find anecdote which user voted
     const votedAnecdote = state.anecdote.find((anc) => anc.id === data.payload);
-    console.log(votedAnecdote);
     dispatch(setNotificationMessage(`user voted '${votedAnecdote.content}'`));
 
     setTimeout(() => {
@@ -40,6 +32,8 @@ const AnecdoteList = () => {
     }, 3000);
   };
 
+  console.log(state);
+  
   return (
     <>
       {[...state.anecdote]
