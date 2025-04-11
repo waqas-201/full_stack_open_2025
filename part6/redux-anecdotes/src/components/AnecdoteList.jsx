@@ -1,10 +1,14 @@
 import { useDispatch, useSelector } from "react-redux";
 import { createVote } from "../slices/anecdoteSlice";
+import {
+  removeNotificationMessage,
+  setNotificationMessage,
+} from "../slices/notificationSlice";
 
 const AnecdoteList = () => {
   const state = useSelector((state) => {
     console.log(state);
-    
+
     if (state?.filter?.term) {
       const filterd = state.anecdote.filter((anc) =>
         anc.content.includes(state.filter.term)
@@ -22,7 +26,18 @@ const AnecdoteList = () => {
   const vote = (id) => {
     console.log(id);
 
-    dispatch(createVote(id));
+    const data = dispatch(createVote(id));
+
+    console.log(data.payload);
+
+    // find anecdote which user voted
+    const votedAnecdote = state.anecdote.find((anc) => anc.id === data.payload);
+    console.log(votedAnecdote);
+    dispatch(setNotificationMessage(`user voted '${votedAnecdote.content}'`));
+
+    setTimeout(() => {
+      dispatch(removeNotificationMessage());
+    }, 3000);
   };
 
   return (

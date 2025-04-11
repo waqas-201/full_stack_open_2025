@@ -9,7 +9,13 @@ const Notification = () => {
     padding: 10,
     borderWidth: 1,
   };
-  return <div style={style}>render here notification...</div>;
+  return (
+    <>
+      {state.notification.message ? (
+        <div style={style}>{state?.notification?.message}</div>
+      ) : null}
+    </>
+  );
 };
 
 export default Notification;

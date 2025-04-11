@@ -7,10 +7,14 @@ const notificationSlice = createSlice({
   initialState,
   reducers: {
     setNotificationMessage: (state, action) => {
-      return (state.message = action.payload);
+      return { ...state, message: action.payload };
+    },
+    removeNotificationMessage: (state) => {
+      return { ...state, message: "" };
     },
   },
 });
 
 export default notificationSlice.reducer;
-export const { setNotificationMessage } = notificationSlice.actions;
+export const { setNotificationMessage, removeNotificationMessage } =
+  notificationSlice.actions;
