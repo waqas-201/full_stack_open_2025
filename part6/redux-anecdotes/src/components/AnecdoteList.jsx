@@ -3,6 +3,8 @@ import { createVote } from "../slices/anecdoteSlice";
 
 const AnecdoteList = () => {
   const state = useSelector((state) => {
+    console.log(state);
+    
     if (state?.filter?.term) {
       const filterd = state.anecdote.filter((anc) =>
         anc.content.includes(state.filter.term)
