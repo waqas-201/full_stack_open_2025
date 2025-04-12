@@ -37,3 +37,15 @@ export const initialAnecdotes = () => {
     dispatch(setAnecdote(anecdote));
   };
 };
+
+export const createAncedotes = (content) => {
+  return async (dispatch) => {
+    const responce = await anecdoteService.postAnecdote({
+      content: content,
+      id: getId(),
+      votes: 0,
+    });
+
+    dispatch(createAncedote(responce.data));
+  };
+};
