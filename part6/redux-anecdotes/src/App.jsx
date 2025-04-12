@@ -13,13 +13,11 @@ const App = () => {
   useEffect(() => {
     const getAnecdotes = async () => {
       const anecdote = await anecdoteService.getAll();
-      console.log(anecdote);
-
       dispatch(setAnecdote(anecdote));
     };
 
     getAnecdotes();
-  }, []);
+  }, [dispatch]);
   return (
     <div>
       <Notification />
