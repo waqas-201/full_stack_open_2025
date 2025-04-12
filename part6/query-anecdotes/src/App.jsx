@@ -1,15 +1,26 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import AnecdoteForm from "./components/AnecdoteForm";
 import Notification from "./components/Notification";
 import anecdoteService from "./services/anecdoteService";
+import { useContext } from "react";
+import NotificationContext from "./components/notificationContext";
 
 const App = () => {
+  const [notification, dispatch] = useContext(NotificationContext);
+
+  const queryClient = useQueryClient();
+  const { mutate } = useMutation({
+    mutationFn: anecdoteService.addVote,
+    onSuccess: () => {
+      queryClient.invalidateQueries("anecdote");
+    },
+  });
+
   const handleVote = (anecdote) => {
-    console.log("vote");
+    mutate(anecdote.id);
   };
 
   const {
-    isPaused,
     isPending,
     data: anecdotes,
     error,
@@ -30,8 +41,8 @@ const App = () => {
     <div>
       <h3>Anecdote app</h3>
 
-      <Notification />
-      <AnecdoteForm />
+      <Notification message={notification.message} />
+      <AnecdoteForm dispatch={dispatch} />
 
       {anecdotes?.map((anecdote) => (
         <div key={anecdote.id}>
