@@ -32,7 +32,6 @@ const AnecdoteList = () => {
     }, 3000);
   };
 
-  console.log(state);
   
   return (
     <>
