@@ -4,14 +4,22 @@ const baseUrl = "http://localhost:3000/anecdotes";
 
 const getAll = async () => {
   const response = await axios.get(baseUrl);
-  console.log(response.data);
-  
+
   return response.data;
 };
-
 
 const postAnecdote = async (data) => {
   return await axios.post(baseUrl, data);
 };
 
-export default { getAll, postAnecdote };
+const addVote = async (id, data) => {
+  console.log(data);
+
+  return await axios.patch(`${baseUrl}/${id}`, data);
+};
+
+const getAnecdote = async (id) => {
+  return await axios.get(`${baseUrl}/${id}`);
+};
+
+export default { getAll, postAnecdote, addVote, getAnecdote };
