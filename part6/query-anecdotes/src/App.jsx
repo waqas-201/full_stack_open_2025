@@ -14,6 +14,9 @@ const App = () => {
     onSuccess: () => {
       queryClient.invalidateQueries("anecdote");
     },
+    onError: (error) => {
+      dispatch({ type: "SET", payload: error.message });
+    },
   });
 
   const handleVote = (anecdote) => {
