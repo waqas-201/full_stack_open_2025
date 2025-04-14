@@ -97,6 +97,11 @@ const CreateNew = ({ addNew }) => {
 
     navigate("/");
   };
+  const handleReset = () => {
+    content.reset();
+    author.reset();
+    info.reset();
+  };
 
   return (
     <div>
@@ -124,6 +129,7 @@ const CreateNew = ({ addNew }) => {
         </div>
         <button>create</button>
       </form>
+      <button onClick={handleReset}> reset </button>
     </div>
   );
 };
@@ -131,7 +137,6 @@ const CreateNew = ({ addNew }) => {
 const SingleAnecdote = ({ allAnecdotes }) => {
   const { id } = useParams();
   const anecdote = allAnecdotes?.find((anc) => anc.id === Number(id));
-
   return (
     <>
       <h4>
