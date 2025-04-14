@@ -1,6 +1,12 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link,
+  useParams,
+} from "react-router-dom";
 
 const Menu = () => {
   const padding = {
@@ -26,7 +32,9 @@ const AnecdoteList = ({ anecdotes }) => (
     <h2>Anecdotes</h2>
     <ul>
       {anecdotes?.map((anecdote) => (
-        <li key={anecdote.id}>{anecdote.content}</li>
+        <li key={anecdote.id}>
+          <Link to={`/anecdote/${anecdote.id}`}>{anecdote.content}</Link>
+        </li>
       ))}
     </ul>
   </div>
@@ -114,6 +122,23 @@ const CreateNew = (props) => {
   );
 };
 
+const SingleAnecdote = ({ allAnecdotes }) => {
+  const { id } = useParams();
+  const anecdote = allAnecdotes?.find((anc) => anc.id === Number(id));
+
+  return (
+    <>
+      <h4>
+        {anecdote.content} by{anecdote.author}
+      </h4>
+      <p>has {anecdote.votes} votes</p>
+      <p>
+        for more info see<a href={`${anecdote.info}`}> {anecdote.info}</a>
+      </p>
+    </>
+  );
+};
+
 const App = () => {
   const [anecdotes, setAnecdotes] = useState([
     {
@@ -170,6 +195,10 @@ const App = () => {
         <Routes>
           <Route path="/create" element={<CreateNew />} />
           <Route path="/" element={<AnecdoteList anecdotes={anecdotes} />} />
+          <Route
+            path="/anecdote/:id"
+            element={<SingleAnecdote allAnecdotes={anecdotes} />}
+          />
         </Routes>
 
         <div>
