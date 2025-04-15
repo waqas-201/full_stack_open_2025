@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Blog from "./Blog";
 import blogService from "../services/blogs";
+import { useDispatch } from "react-redux";
+import {
+  removeNotification,
+  setNotification,
+} from "../features/notification/notification.slice";
 
-const CreateBlog = ({
-  blogs,
-  setBlogs,
-  setShowNotification,
-  setMessage,
-  setType,
-  setIsLikeAdded,
-}) => {
+const CreateBlog = ({ blogs, setBlogs, setType, setIsLikeAdded }) => {
   const [showCreate, setShowCreate] = useState(false);
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
@@ -18,6 +16,7 @@ const CreateBlog = ({
   const [applySort, setApplySort] = useState(false);
   const [sorted, setSorted] = useState(blogs);
 
+  const dispatch = useDispatch();
   const handleCreateBlog = async (e) => {
     e.preventDefault();
     try {
@@ -27,20 +26,18 @@ const CreateBlog = ({
       setAuthor("");
       setLikes("");
       setUrl("");
-      setShowNotification(true);
+      dispatch(
+        setNotification(`blog post with title ${responce.title} just  added`)
+      );
       setTimeout(() => {
-        setShowNotification(false);
+        dispatch(removeNotification());
       }, 3000);
-
-      setMessage(`blog post with title ${responce.title} just  added`);
       setType("success");
     } catch (error) {
-      setShowNotification(true);
+      dispatch(setNotification(error?.response?.data?.error));
       setTimeout(() => {
-        setShowNotification(false);
+        dispatch(removeNotification());
       }, 3000);
-
-      setMessage(error?.response?.data?.error);
       setType("failed");
       console.log(error);
     }
