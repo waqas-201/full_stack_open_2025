@@ -2,14 +2,14 @@ import { useState, useEffect } from "react";
 import blogService from "./services/blogs";
 import Notification from "./components/Notification";
 import CreateBlog from "./components/CreateBlog";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   removeNotification,
   setNotification,
 } from "./features/notification/notification.slice";
+import { fetchAndSetBlog } from "./features/notification/blogSlice";
 
 const App = () => {
-  const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
@@ -18,12 +18,14 @@ const App = () => {
 
   const [type, setType] = useState("");
   const [isLikeAdded, setIsLikeAdded] = useState(false);
+  const blogs = useSelector((state) => state.blog.blog);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs));
-  }, [user, isLikeAdded]);
-  // when our app components mounts first time it'll add toke to local storage and also with request headers
+    dispatch(fetchAndSetBlog());
+  }, [dispatch, isLikeAdded, user]);
+
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedNoteappUser");
     if (loggedUserJSON) {
@@ -105,7 +107,6 @@ const App = () => {
         <CreateBlog
           setIsLikeAdded={setIsLikeAdded}
           blogs={blogs}
-          setBlogs={setBlogs}
           setType={setType}
         />
       )}

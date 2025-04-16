@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import Blog from "./Blog";
 import blogService from "../services/blogs";
 import { useDispatch } from "react-redux";
+import { setOneBLogPost } from "../features/notification/blogSlice";
 import {
   removeNotification,
   setNotification,
 } from "../features/notification/notification.slice";
 
-const CreateBlog = ({ blogs, setBlogs, setType, setIsLikeAdded }) => {
+const CreateBlog = ({ blogs, setType, setIsLikeAdded }) => {
   const [showCreate, setShowCreate] = useState(false);
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
@@ -21,7 +22,8 @@ const CreateBlog = ({ blogs, setBlogs, setType, setIsLikeAdded }) => {
     e.preventDefault();
     try {
       const responce = await blogService.create({ title, author, likes, url });
-      setBlogs(blogs.concat(responce));
+      dispatch(setOneBLogPost(responce));
+
       setTitle("");
       setAuthor("");
       setLikes("");
