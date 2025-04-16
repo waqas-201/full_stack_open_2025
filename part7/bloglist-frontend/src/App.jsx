@@ -8,31 +8,33 @@ import {
   setNotification,
 } from "./features/notification/notification.slice";
 import { fetchAndSetBlog } from "./features/notification/blogSlice";
+import { removeUser, setUser } from "./features/notification/userSlice";
 
 const App = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
-  const [user, setUser] = useState(null);
   // blog state
 
   const [type, setType] = useState("");
   const blogs = useSelector((state) => state.blog.blog);
+  const { user } = useSelector((state) => state);
+  console.log(user);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchAndSetBlog());
-  }, [dispatch, user]);
+  }, [dispatch]);
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedNoteappUser");
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
-      setUser(user);
+      dispatch(setUser(user));
       blogService.setToken(user.token);
     }
-  }, []);
+  }, [dispatch]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -42,7 +44,7 @@ const App = () => {
       window.localStorage.setItem("loggedNoteappUser", JSON.stringify(user));
       blogService.setToken(user.token);
 
-      setUser(user);
+      dispatch(setUser(user));
 
       dispatch(setNotification("user logged in succcessfully"));
       setTimeout(() => {
@@ -66,13 +68,14 @@ const App = () => {
       {errorMessage ? <p style={{ color: "red" }}>{errorMessage}</p> : null}
       {<Notification type={type} />}
 
-      {user ? (
+      {user.user ? (
         <>
           <p> username {user?.username}</p>
           <button
             onClick={() => {
               localStorage.setItem("loggedNoteappUser", "");
-              setUser(null);
+
+              dispatch(removeUser());
             }}
           >
             logout
@@ -80,7 +83,7 @@ const App = () => {
         </>
       ) : null}
 
-      {!user ? (
+      {!user.user ? (
         <form onSubmit={(e) => handleLogin(e)}>
           <div>
             username
