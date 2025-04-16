@@ -17,13 +17,20 @@ const create = async (newObject) => {
   return response.data;
 };
 
-const updateLike = async (id, lieks) => {
+const updateLike = async (id) => {
   const config = {
     headers: { Authorization: token },
   };
 
+  const getOneBlog = await axios.get(baseUrl, config);
+  const prevLikes = getOneBlog.data[0].likes;
+
   const modifiedUrl = `${baseUrl}/${id}`;
-  const response = await axios.patch(modifiedUrl, { likes: lieks }, config);
+  const response = await axios.patch(
+    modifiedUrl,
+    { likes: prevLikes + 1 },
+    config
+  );
   return response.data;
 };
 

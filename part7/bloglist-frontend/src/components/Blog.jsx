@@ -1,9 +1,14 @@
 import { useState } from "react";
 import blogService from "../services/blogs";
+import { useDispatch } from "react-redux";
+import {
+  fetchAndDeleteBlog,
+  LikeAndUpdatePost,
+} from "../features/notification/blogSlice";
 
-const Blog = ({ blog, setIsLikeAdded }) => {
+const Blog = ({ blog }) => {
   const [showDetails, setShowDetails] = useState(false);
-  const [totalLike, setTotalLikes] = useState(blog.likes);
+  const dispatch = useDispatch();
 
   const blogStyle = {
     paddingTop: 10,
@@ -14,10 +19,9 @@ const Blog = ({ blog, setIsLikeAdded }) => {
   };
 
   const handleLike = async ({ id }) => {
-    setTotalLikes((prev) => prev + 1);
+    //  setTotalLikes((prev) => prev + 1);
     try {
-      await blogService.updateLike(id, totalLike);
-      setIsLikeAdded(true);
+      dispatch(LikeAndUpdatePost(id));
     } catch (error) {
       console.log(error);
     }
@@ -27,11 +31,7 @@ const Blog = ({ blog, setIsLikeAdded }) => {
     const confirm = window.confirm(`Remove Blog ${blog.title}`);
     console.log(confirm);
     if (confirm) {
-      try {
-        await blogService.remove(id);
-      } catch (error) {
-        console.log(error);
-      }
+      dispatch(fetchAndDeleteBlog(id));
     }
   };
 
@@ -52,7 +52,7 @@ const Blog = ({ blog, setIsLikeAdded }) => {
             url :<a href={`${blog.url}`}> {blog.url}</a>
           </div>
           <div>
-            Likes : {totalLike}
+            Likes :{blog.likes}
             <button
               onClick={() => {
                 handleLike({ id: blog.id });

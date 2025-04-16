@@ -17,14 +17,13 @@ const App = () => {
   // blog state
 
   const [type, setType] = useState("");
-  const [isLikeAdded, setIsLikeAdded] = useState(false);
   const blogs = useSelector((state) => state.blog.blog);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchAndSetBlog());
-  }, [dispatch, isLikeAdded, user]);
+  }, [dispatch, user]);
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedNoteappUser");
@@ -104,11 +103,7 @@ const App = () => {
           <button type="submit">login</button>
         </form>
       ) : (
-        <CreateBlog
-          setIsLikeAdded={setIsLikeAdded}
-          blogs={blogs}
-          setType={setType}
-        />
+        <CreateBlog blogs={blogs} setType={setType} />
       )}
     </div>
   );

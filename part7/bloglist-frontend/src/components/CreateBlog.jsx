@@ -8,7 +8,7 @@ import {
   setNotification,
 } from "../features/notification/notification.slice";
 
-const CreateBlog = ({ blogs, setType, setIsLikeAdded }) => {
+const CreateBlog = ({ blogs, setType }) => {
   const [showCreate, setShowCreate] = useState(false);
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
@@ -64,7 +64,7 @@ const CreateBlog = ({ blogs, setType, setIsLikeAdded }) => {
         sort
       </button>
       {sorted.map((blog) => (
-        <Blog key={blog.id} blog={blog} setIsLikeAdded={setIsLikeAdded} />
+        <Blog key={blog.id} blog={blog} />
       ))}
 
       <button
