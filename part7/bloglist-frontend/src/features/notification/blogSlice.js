@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import blogService from "../../services/blogs";
+import blogService from "../../services/fetchSrevice";
 
 const initialState = {
   blog: [],
@@ -25,7 +25,7 @@ export const { setBlog, setOneBLogPost, setIsLikeAdded, setUpdateBlogPost } =
 
 export const fetchAndSetBlog = () => {
   return async (dispatch) => {
-    const data = await blogService.getAll();
+    const data = await blogService.getAllPosts();
     dispatch(setBlog(data));
   };
 };
@@ -39,7 +39,7 @@ export const LikeAndUpdatePost = (id) => {
 
 export const fetchAndDeleteBlog = (id) => {
   return async (dispatch) => {
-    await blogService.remove(id);
+    await blogService.removePost(id);
     dispatch(fetchAndSetBlog());
   };
 };

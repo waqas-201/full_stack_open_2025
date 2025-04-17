@@ -1,6 +1,7 @@
 import axios from "axios";
 const baseUrl = "/api/blogs";
 const loginUrl = "/api/auth/login";
+const userUlr = "/api/users";
 
 var token = null;
 
@@ -8,7 +9,7 @@ const setToken = (newToken) => {
   token = `Bearer ${newToken}`;
 };
 
-const create = async (newObject) => {
+const createPost = async (newObject) => {
   const config = {
     headers: { Authorization: token },
   };
@@ -34,7 +35,7 @@ const updateLike = async (id) => {
   return response.data;
 };
 
-const remove = async (id) => {
+const removePost = async (id) => {
   const config = {
     headers: { Authorization: token },
   };
@@ -44,7 +45,7 @@ const remove = async (id) => {
   return response.data;
 };
 
-const getAll = async () => {
+const getAllPosts = async () => {
   const config = {
     headers: { Authorization: token },
   };
@@ -52,8 +53,24 @@ const getAll = async () => {
   return request.data;
 };
 
-const login = async (credentials) => {
+const loginUser = async (credentials) => {
   const response = await axios.post(loginUrl, credentials);
   return response.data;
 };
-export default { getAll, login, setToken, create, updateLike, remove };
+
+const getUsers = async () => {
+  const config = {
+    headers: { Authorization: token },
+  };
+  const response = await axios.get(userUlr, config);
+  return response.data;
+};
+export default {
+  getAllPosts,
+  loginUser,
+  setToken,
+  createPost,
+  updateLike,
+  removePost,
+  getUsers,
+};

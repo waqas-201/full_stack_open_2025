@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Blog from "./Blog";
-import blogService from "../services/blogs";
+import blogService from "../services/fetchSrevice";
 import { useDispatch } from "react-redux";
 import { setOneBLogPost } from "../features/notification/blogSlice";
 import {
@@ -21,7 +21,12 @@ const CreateBlog = ({ blogs, setType }) => {
   const handleCreateBlog = async (e) => {
     e.preventDefault();
     try {
-      const responce = await blogService.create({ title, author, likes, url });
+      const responce = await blogService.createPost({
+        title,
+        author,
+        likes,
+        url,
+      });
       dispatch(setOneBLogPost(responce));
 
       setTitle("");
