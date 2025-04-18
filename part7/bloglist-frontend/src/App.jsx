@@ -14,7 +14,7 @@ const App = () => {
   };
   return (
     <BrowserRouter>
-      <div>
+      <div style={{ display: "flex", alignItems: "center", gap: "2px" }}>
         <Link style={padding} to="/">
           home
         </Link>
@@ -22,8 +22,8 @@ const App = () => {
         <Link style={padding} to="/users">
           users
         </Link>
+        <Users />
       </div>
-      <Users />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route

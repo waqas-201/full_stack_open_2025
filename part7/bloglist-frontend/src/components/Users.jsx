@@ -14,15 +14,18 @@ const Users = () => {
 
   return (
     <>
-      <h1>Blogs </h1>
-      <>
-        {user ? (
-          <>
-            <p>{user?.name} is logged in </p>
-            <button onClick={handleLogout}>logout</button>
-          </>
-        ) : null}
-      </>
+      {user ? (
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "2px",
+          }}
+        >
+          <p>{user?.name} is logged in </p>
+          <button onClick={handleLogout}>logout</button>
+        </div>
+      ) : null}
     </>
   );
 };
