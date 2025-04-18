@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAndSetBlog } from "../features/notification/blogSlice";
-import { removeUser, setUser } from "../features/notification/userSlice";
+import { setUser } from "../features/notification/userSlice";
 import fetchService from "../services/fetchSrevice";
 import {
   removeNotification,

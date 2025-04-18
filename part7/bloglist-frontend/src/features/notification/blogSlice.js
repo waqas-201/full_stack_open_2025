@@ -30,9 +30,9 @@ export const fetchAndSetBlog = () => {
   };
 };
 
-export const LikeAndUpdatePost = (id) => {
+export const LikeAndUpdatePost = (blog) => {
   return async (dispatch) => {
-    await blogService.updateLike(id);
+    await blogService.updateLike(blog);
     dispatch(fetchAndSetBlog());
   };
 };

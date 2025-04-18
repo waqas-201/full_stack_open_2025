@@ -18,18 +18,15 @@ const createPost = async (newObject) => {
   return response.data;
 };
 
-const updateLike = async (id) => {
+const updateLike = async (blog) => {
   const config = {
     headers: { Authorization: token },
   };
 
-  const getOneBlog = await axios.get(blogUrl, config);
-  const prevLikes = getOneBlog.data[0].likes;
-
-  const modifiedUrl = `${blogUrl}/${id}`;
+  const modifiedUrl = `${blogUrl}/${blog.id}`;
   const response = await axios.patch(
     modifiedUrl,
-    { likes: prevLikes + 1 },
+    { likes: blog.likes + 1 },
     config
   );
   return response.data;
@@ -79,6 +76,14 @@ const getOneUserBlogs = async (id) => {
 
   return responce.data;
 };
+
+const getOneBlog = async (id) => {
+  const config = {
+    headers: { Authorization: token },
+  };
+  const modifiedUrl = `${blogUrl}/${id}`;
+  return (await axios.get(modifiedUrl, config)).data;
+};
 export default {
   getAllPosts,
   loginUser,
@@ -88,4 +93,5 @@ export default {
   removePost,
   getUsers,
   getOneUserBlogs,
+  getOneBlog,
 };

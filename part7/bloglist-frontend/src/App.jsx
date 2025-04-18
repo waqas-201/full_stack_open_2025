@@ -4,6 +4,7 @@ import Users from "./components/Users";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import UsersList from "./components/UsersList";
 import SingleUser from "./components/SingleUser";
+import BlogPost from "./components/BlogPost";
 
 const queryClient = new QueryClient();
 
@@ -39,6 +40,15 @@ const App = () => {
           element={
             <QueryClientProvider client={queryClient}>
               <SingleUser />
+            </QueryClientProvider>
+          }
+        />
+
+        <Route
+          path="/blog/:id"
+          element={
+            <QueryClientProvider client={queryClient}>
+              <BlogPost />
             </QueryClientProvider>
           }
         />

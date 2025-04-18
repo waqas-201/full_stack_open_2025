@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import React, { use } from "react";
+import React from "react";
 import { useParams } from "react-router-dom";
 import fetchSrevice from "../services/fetchSrevice";
 
@@ -14,7 +14,6 @@ const SingleUser = () => {
     queryKey: ["user", id],
     queryFn: () => fetchSrevice.getOneUserBlogs(id),
   });
-  console.log(user);
 
   if (isLoading) {
     return <>loading info ....</>;
