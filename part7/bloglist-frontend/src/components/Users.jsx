@@ -20,7 +20,6 @@ const Users = () => {
           <>
             <p>{user?.name} is logged in </p>
             <button onClick={handleLogout}>logout</button>
-            <UsersList />
           </>
         ) : null}
       </>

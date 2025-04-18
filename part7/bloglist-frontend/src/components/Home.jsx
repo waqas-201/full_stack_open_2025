@@ -66,21 +66,6 @@ const Home = () => {
       {errorMessage ? <p style={{ color: "red" }}>{errorMessage}</p> : null}
       {<Notification type={type} />}
 
-      {user.user ? (
-        <>
-          <p> username {user.user?.username}</p>
-          <button
-            onClick={() => {
-              localStorage.setItem("loggedNoteappUser", "");
-
-              dispatch(removeUser());
-            }}
-          >
-            logout
-          </button>
-        </>
-      ) : null}
-
       {!user.user ? (
         <form onSubmit={(e) => handleLogin(e)}>
           <div>

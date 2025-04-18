@@ -3,6 +3,7 @@ import fetchSrevice from "../services/fetchSrevice";
 import Notification from "./Notification";
 import { useDispatch } from "react-redux";
 import { setNotification } from "../features/notification/notification.slice";
+import { Link } from "react-router-dom";
 
 const UsersList = () => {
   const dispatch = useDispatch();
@@ -43,7 +44,7 @@ const UsersList = () => {
         return (
           <>
             <div style={{ display: "flex", alignItems: "center", gap: "15px" }}>
-              <p>{user.username}</p>
+              <Link to={`/user/${user.id}`}>{user.username}</Link>
               <span>{Object.keys(user.blogs).length}</span>
             </div>
           </>

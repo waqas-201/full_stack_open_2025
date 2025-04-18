@@ -1,13 +1,9 @@
 import Home from "./components/Home";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import Users from "./components/Users";
-import {
-  useQuery,
-  useMutation,
-  useQueryClient,
-  QueryClient,
-  QueryClientProvider,
-} from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import UsersList from "./components/UsersList";
+import SingleUser from "./components/SingleUser";
 
 const queryClient = new QueryClient();
 
@@ -26,14 +22,23 @@ const App = () => {
           users
         </Link>
       </div>
-
+      <Users />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route
           path="/users"
           element={
             <QueryClientProvider client={queryClient}>
-              <Users />
+              <UsersList />
+            </QueryClientProvider>
+          }
+        />
+
+        <Route
+          path="user/:id"
+          element={
+            <QueryClientProvider client={queryClient}>
+              <SingleUser />
             </QueryClientProvider>
           }
         />

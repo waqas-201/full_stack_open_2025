@@ -1,5 +1,5 @@
 import axios from "axios";
-const baseUrl = "/api/blogs";
+const blogUrl = "/api/blogs";
 const loginUrl = "/api/auth/login";
 const userUlr = "/api/users";
 
@@ -14,7 +14,7 @@ const createPost = async (newObject) => {
     headers: { Authorization: token },
   };
 
-  const response = await axios.post(baseUrl, newObject, config);
+  const response = await axios.post(blogUrl, newObject, config);
   return response.data;
 };
 
@@ -23,10 +23,10 @@ const updateLike = async (id) => {
     headers: { Authorization: token },
   };
 
-  const getOneBlog = await axios.get(baseUrl, config);
+  const getOneBlog = await axios.get(blogUrl, config);
   const prevLikes = getOneBlog.data[0].likes;
 
-  const modifiedUrl = `${baseUrl}/${id}`;
+  const modifiedUrl = `${blogUrl}/${id}`;
   const response = await axios.patch(
     modifiedUrl,
     { likes: prevLikes + 1 },
@@ -40,7 +40,7 @@ const removePost = async (id) => {
     headers: { Authorization: token },
   };
 
-  const modifiedUrl = `${baseUrl}/${id}`;
+  const modifiedUrl = `${blogUrl}/${id}`;
   const response = await axios.delete(modifiedUrl, config);
   return response.data;
 };
@@ -49,7 +49,7 @@ const getAllPosts = async () => {
   const config = {
     headers: { Authorization: token },
   };
-  const request = await axios.get(baseUrl, config);
+  const request = await axios.get(blogUrl, config);
   return request.data;
 };
 
@@ -65,6 +65,20 @@ const getUsers = async () => {
   const response = await axios.get(userUlr, config);
   return response.data;
 };
+
+const getOneUserBlogs = async (id) => {
+  console.log("funcation triggerd ");
+
+  const config = {
+    headers: { Authorization: token },
+  };
+  const modifiedUrl = `${userUlr}/${id}`;
+
+  const responce = await axios.get(modifiedUrl, config);
+  console.log(responce);
+
+  return responce.data;
+};
 export default {
   getAllPosts,
   loginUser,
@@ -73,4 +87,5 @@ export default {
   updateLike,
   removePost,
   getUsers,
+  getOneUserBlogs,
 };
