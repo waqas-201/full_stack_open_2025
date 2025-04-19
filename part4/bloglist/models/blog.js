@@ -8,8 +8,6 @@ const blogSchema = new mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
 });
 
-const Blog = mongoose.model("Blog", blogSchema);
-
 blogSchema.set("toJSON", {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString();
@@ -17,5 +15,6 @@ blogSchema.set("toJSON", {
     delete returnedObject.__v;
   },
 });
+const Blog = mongoose.model("Blog", blogSchema);
 
 module.exports = Blog;

@@ -53,20 +53,12 @@ userRouter.post("/", async (req, res, next) => {
 });
 
 userRouter.get("/", async (req, res, next) => {
-  try {
-    const responce = await User.find({}).populate("blogs");
+  console.log("request triggerd");
 
-    const alterdResponce = responce.map((user) => {
-      return {
-        username: user.username,
-        name: user.name,
-        id: user.id,
-        blogs: {
-          ...user.blogs,
-        },
-      };
-    });
-    res.status(200).json(alterdResponce);
+  try {
+    const responce = await User.find({}).populate("blogs").select("-password");
+
+    res.status(200).json(responce);
   } catch (error) {
     next(error);
   }
@@ -76,6 +68,26 @@ userRouter.delete("/", async (req, res, next) => {
   try {
     const deleteALlUsers = await User.deleteMany();
     return res.status(200).json(deleteALlUsers);
+  } catch (error) {
+    next(error);
+  }
+});
+
+userRouter.get("/:id", async (req, res, next) => {
+  const { id } = req.params;
+  console.log(id);
+
+  if (!id) {
+    return res.status(403).json({ error: { message: "id not provided " } });
+  }
+  try {
+    const user = await User.findById(id).populate("blogs");
+    console.log(user);
+    if (!user) {
+      return res.status(403).json({ error: { message: "user not found " } });
+    }
+
+    return res.status(200).json(user);
   } catch (error) {
     next(error);
   }
