@@ -95,6 +95,17 @@ const getComment = async (blogId) => {
   const modifiedUrl = `${commentUrl}/${blogId}`;
   return (await axios.get(modifiedUrl, config)).data;
 };
+
+const addComment = async ({ blogId, message }) => {
+  const config = {
+    headers: { Authorization: token },
+  };
+  return await axios.post(
+    commentUrl,
+    { blogId, commentMessage: message },
+    config
+  );
+};
 export default {
   getAllPosts,
   loginUser,
@@ -106,4 +117,5 @@ export default {
   getOneUserBlogs,
   getOneBlog,
   getComment,
+  addComment,
 };

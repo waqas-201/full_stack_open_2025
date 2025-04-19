@@ -5,6 +5,7 @@ import {
   LikeAndUpdatePost,
 } from "../features/notification/blogSlice";
 import Comment from "./Comment";
+import CommentForm from "./CommentForm";
 
 const BlogPost = () => {
   const dispatch = useDispatch();
@@ -36,7 +37,7 @@ const BlogPost = () => {
         <button onClick={() => handleLike(blog)}>like</button>
       </div>
       <p>added by {blog?.author}</p>
-
+      <CommentForm blogId={blog?.id} />
       <Comment blogId={blog?.id} />
     </>
   );

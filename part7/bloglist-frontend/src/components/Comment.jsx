@@ -3,11 +3,6 @@ import React from "react";
 import fetchSrevice from "../services/fetchSrevice";
 
 const Comment = ({ blogId }) => {
-  console.log("--------------------------");
-
-  console.log(blogId);
-  console.log("--------------------------");
-
   const {
     data: comments,
     error,
