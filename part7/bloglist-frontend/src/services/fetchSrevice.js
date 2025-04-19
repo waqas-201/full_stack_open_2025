@@ -2,6 +2,7 @@ import axios from "axios";
 const blogUrl = "/api/blogs";
 const loginUrl = "/api/auth/login";
 const userUlr = "/api/users";
+const commentUrl = "/api/comments";
 
 var token = null;
 
@@ -46,8 +47,10 @@ const getAllPosts = async () => {
   const config = {
     headers: { Authorization: token },
   };
-  const request = await axios.get(blogUrl, config);
-  return request.data;
+  const responce = await axios.get(blogUrl, config);
+  console.log(responce);
+
+  return responce.data;
 };
 
 const loginUser = async (credentials) => {
@@ -84,6 +87,14 @@ const getOneBlog = async (id) => {
   const modifiedUrl = `${blogUrl}/${id}`;
   return (await axios.get(modifiedUrl, config)).data;
 };
+
+const getComment = async (blogId) => {
+  const config = {
+    headers: { Authorization: token },
+  };
+  const modifiedUrl = `${commentUrl}/${blogId}`;
+  return (await axios.get(modifiedUrl, config)).data;
+};
 export default {
   getAllPosts,
   loginUser,
@@ -94,4 +105,5 @@ export default {
   getUsers,
   getOneUserBlogs,
   getOneBlog,
+  getComment,
 };

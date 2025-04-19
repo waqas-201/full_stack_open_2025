@@ -40,12 +40,12 @@ const UsersList = () => {
         <h2>Users</h2>
         <h3>blogs created</h3>
       </div>
-      {users.map((user) => {
+      {users?.map((user) => {
         return (
           <>
             <div style={{ display: "flex", alignItems: "center", gap: "15px" }}>
               <Link to={`/user/${user.id}`}>{user.username}</Link>
-              <span>{Object.keys(user.blogs).length}</span>
+              {user ? <span>{Object.keys(user?.blogs).length}</span> : null}
             </div>
           </>
         );

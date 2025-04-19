@@ -1,18 +1,16 @@
-import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
-import fetchSrevice from "../services/fetchSrevice";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchAndDeleteBlog,
   LikeAndUpdatePost,
 } from "../features/notification/blogSlice";
+import Comment from "./Comment";
 
 const BlogPost = () => {
   const dispatch = useDispatch();
   const data = useSelector((state) => state);
   const { id } = useParams();
   const [blog] = data.blog.blog.filter((b) => b.id === id);
-  console.log(blog);
 
   const handleLike = async (blog) => {
     try {
@@ -31,13 +29,15 @@ const BlogPost = () => {
 
   return (
     <>
-      <h3>{blog.title}</h3>
-      <a href={blog.url}> {blog.url}</a>
+      <h3>{blog?.title}</h3>
+      <a href={blog?.url}> {blog?.url}</a>
       <div>
-        <span>{blog.likes} likes</span>{" "}
+        <span>{blog?.likes} likes</span>{" "}
         <button onClick={() => handleLike(blog)}>like</button>
       </div>
-      <p>added by {blog.author}</p>
+      <p>added by {blog?.author}</p>
+
+      <Comment blogId={blog?.id} />
     </>
   );
 };
