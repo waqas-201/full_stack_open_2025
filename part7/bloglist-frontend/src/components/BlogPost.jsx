@@ -6,6 +6,8 @@ import {
 } from "../features/notification/blogSlice";
 import Comment from "./Comment";
 import CommentForm from "./CommentForm";
+import H3 from "./ui/H3";
+import { Button } from "./ui/Button";
 
 const BlogPost = () => {
   const dispatch = useDispatch();
@@ -30,11 +32,11 @@ const BlogPost = () => {
 
   return (
     <>
-      <h3>{blog?.title}</h3>
+      <H3>{blog?.title}</H3>
       <a href={blog?.url}> {blog?.url}</a>
       <div>
         <span>{blog?.likes} likes</span>{" "}
-        <button onClick={() => handleLike(blog)}>like</button>
+        <Button onClick={() => handleLike(blog)}>like</Button>
       </div>
       <p>added by {blog?.author}</p>
       <CommentForm blogId={blog?.id} />

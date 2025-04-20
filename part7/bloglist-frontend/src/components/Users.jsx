@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { removeUser } from "../features/notification/userSlice";
-import UsersList from "./UsersList";
+import { Button } from "./ui/Button";
 
 const Users = () => {
   const { user } = useSelector((state) => state.user);
@@ -8,25 +8,21 @@ const Users = () => {
   const dispatch = useDispatch();
 
   const handleLogout = () => {
+    console.log("handle click triggerd ");
+
     localStorage.setItem("loggedNoteappUser", "");
     dispatch(removeUser());
   };
 
   return (
-    <>
+    <div>
       {user ? (
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "2px",
-          }}
-        >
+        <div className="flex items-center justify-between gap-4">
           <p>{user?.name} is logged in </p>
-          <button onClick={handleLogout}>logout</button>
+          <Button onClick={handleLogout}>logout</Button>
         </div>
       ) : null}
-    </>
+    </div>
   );
 };
 

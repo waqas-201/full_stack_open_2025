@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import fetchSrevice from "../services/fetchSrevice";
+import H3 from "./ui/H3";
 
 const Comment = ({ blogId }) => {
   const {
@@ -25,7 +26,7 @@ const Comment = ({ blogId }) => {
 
   return (
     <>
-      <h4>comments</h4>
+      <H3>comments</H3>
       {comments.map((comment) => {
         return (
           <ul key={comment.id}>

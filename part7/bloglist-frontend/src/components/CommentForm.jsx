@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React, { useState } from "react";
 import fetchSrevice from "../services/fetchSrevice";
+import { Button } from "./ui/Button";
 
 const CommentForm = ({ blogId }) => {
   console.log(blogId);
@@ -27,8 +28,9 @@ const CommentForm = ({ blogId }) => {
           setMessage(e.target.value);
         }}
         value={message}
+        className="px-4 py-2 border border-cyan-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-900"
       />
-      <button onClick={handleClick}>add comment</button>
+      <Button onClick={handleClick}>add comment </Button>
     </form>
   );
 };

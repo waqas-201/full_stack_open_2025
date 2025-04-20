@@ -6,6 +6,7 @@ import {
   setNotification,
 } from "../features/notification/notification.slice";
 import { useState } from "react";
+import { Button } from "./ui/Button";
 
 const BlogForm = ({ setType }) => {
   const [showCreate, setShowCreate] = useState(false);
@@ -13,7 +14,9 @@ const BlogForm = ({ setType }) => {
   const [author, setAuthor] = useState("");
   const [url, setUrl] = useState("");
   const [likes, setLikes] = useState(0);
+
   const dispatch = useDispatch();
+
   const handleCreateBlog = async (e) => {
     e.preventDefault();
     try {
@@ -23,81 +26,109 @@ const BlogForm = ({ setType }) => {
         likes,
         url,
       });
-      dispatch(setOneBLogPost(responce));
 
+      dispatch(setOneBLogPost(responce));
       setTitle("");
       setAuthor("");
-      setLikes("");
+      setLikes(0);
       setUrl("");
+
       dispatch(
-        setNotification(`blog post with title ${responce.title} just  added`)
+        setNotification(`blog post with title "${responce.title}" just added`)
       );
-      setTimeout(() => {
-        dispatch(removeNotification());
-      }, 3000);
+      setTimeout(() => dispatch(removeNotification()), 3000);
       setType("success");
     } catch (error) {
       dispatch(setNotification(error?.response?.data?.error));
-      setTimeout(() => {
-        dispatch(removeNotification());
-      }, 3000);
+      setTimeout(() => dispatch(removeNotification()), 3000);
       setType("failed");
-      console.log(error);
+      console.error(error);
     }
   };
 
   return (
-    <div>
-      {showCreate ? (
-        <form onSubmit={(e) => handleCreateBlog(e)}>
-          <div>
-            title
+    <div className="max-w-md mx-auto mt-6 p-6 border border-gray-200 rounded-xl shadow">
+      {showCreate && (
+        <form onSubmit={handleCreateBlog} className="space-y-4">
+          <div className="flex flex-col">
+            <label
+              htmlFor="title"
+              className="mb-1 font-medium text-sm text-gray-700"
+            >
+              Title
+            </label>
             <input
+              id="title"
               type="text"
               value={title}
-              name="title"
               onChange={(e) => setTitle(e.target.value)}
+              className="px-4 py-2 border border-cyan-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-900"
+              placeholder="Enter blog title"
             />
           </div>
-          <div>
-            author
+
+          <div className="flex flex-col">
+            <label
+              htmlFor="author"
+              className="mb-1 font-medium text-sm text-gray-700"
+            >
+              Author
+            </label>
             <input
+              id="author"
               type="text"
               value={author}
-              name="author"
               onChange={(e) => setAuthor(e.target.value)}
+              className="px-4 py-2 border border-cyan-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-900"
+              placeholder="Author name"
             />
           </div>
 
-          <div>
-            url
+          <div className="flex flex-col">
+            <label
+              htmlFor="url"
+              className="mb-1 font-medium text-sm text-gray-700"
+            >
+              URL
+            </label>
             <input
+              id="url"
               type="text"
               value={url}
-              name="url"
               onChange={(e) => setUrl(e.target.value)}
+              className="px-4 py-2 border border-cyan-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-900"
+              placeholder="https://example.com"
             />
           </div>
-          <div>
-            likes
+
+          <div className="flex flex-col">
+            <label
+              htmlFor="likes"
+              className="mb-1 font-medium text-sm text-gray-700"
+            >
+              Likes
+            </label>
             <input
+              id="likes"
               type="number"
               value={likes}
-              name="likes"
-              onChange={(e) => setLikes(e.target.value)}
+              onChange={(e) => setLikes(Number(e.target.value))}
+              className="px-4 py-2 border border-cyan-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-900"
+              placeholder="0"
             />
           </div>
-          <button type="submit">create</button>
-        </form>
-      ) : null}
 
-      <button
-        onClick={() => {
-          setShowCreate(!showCreate);
-        }}
-      >
-        create New{" "}
-      </button>
+          <div className="pt-4">
+            <Button type="submit">Create</Button>
+          </div>
+        </form>
+      )}
+
+      <div className="pt-5 text-center">
+        <Button onClick={() => setShowCreate(!showCreate)}>
+          {showCreate ? "Cancel" : "Create New"}
+        </Button>
+      </div>
     </div>
   );
 };

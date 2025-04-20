@@ -3,7 +3,9 @@ import fetchSrevice from "../services/fetchSrevice";
 import Notification from "./Notification";
 import { useDispatch } from "react-redux";
 import { setNotification } from "../features/notification/notification.slice";
-import { Link } from "react-router-dom";
+import H2 from "./ui/H2";
+import H3 from "./ui/H3";
+import StyledLink from "./ui/Link";
 
 const UsersList = () => {
   const dispatch = useDispatch();
@@ -37,14 +39,15 @@ const UsersList = () => {
           justifyItems: "center",
         }}
       >
-        <h2>Users</h2>
-        <h3>blogs created</h3>
+        <H2>Users</H2>
+        <H3>blogs created</H3>
       </div>
       {users?.map((user) => {
         return (
           <>
             <div style={{ display: "flex", alignItems: "center", gap: "15px" }}>
-              <Link to={`/user/${user.id}`}>{user.username}</Link>
+              <StyledLink href={`/user/${user.id}`}>{user.username}</StyledLink>
+
               {user ? <span>{Object.keys(user?.blogs).length}</span> : null}
             </div>
           </>

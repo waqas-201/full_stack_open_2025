@@ -1,11 +1,11 @@
-import { Link } from "react-router-dom";
+import StyledLink from "./ui/Link";
 
 const Blogs = ({ blog }) => {
   return (
     <div>
-      <Link to={`/blog/${blog.id}`} className="title">
+      <StyledLink href={`/blog/${blog.id}`} className="title">
         {blog.title}
-      </Link>
+      </StyledLink>
     </div>
   );
 };

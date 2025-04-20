@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import UsersList from "./components/UsersList";
 import SingleUser from "./components/SingleUser";
 import BlogPost from "./components/BlogPost";
+import { Button } from "./components/ui/Button";
 
 const queryClient = new QueryClient();
 
@@ -14,15 +15,19 @@ const App = () => {
   };
   return (
     <BrowserRouter>
-      <div style={{ display: "flex", alignItems: "center", gap: "2px" }}>
-        <Link style={padding} to="/">
-          home
-        </Link>
+      <div className="bg-cyan-500 flex justify-between items-center p-4">
+        <div className="pl-10">
+          <Link style={padding} to="/">
+            <Button>home</Button>
+          </Link>
 
-        <Link style={padding} to="/users">
-          users
-        </Link>
-        <Users />
+          <Link style={padding} to="/users">
+            <Button>users</Button>
+          </Link>
+        </div>
+        <div className="pr-10">
+          <Users />
+        </div>
       </div>
       <Routes>
         <Route path="/" element={<Home />} />

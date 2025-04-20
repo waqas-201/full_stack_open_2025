@@ -1,11 +1,12 @@
 import React from "react";
 import Blogs from "./Blogs";
 import BlogForm from "./BlogForm";
+import H2 from "./ui/H2";
 
 const CreateBlog = ({ blogs, setType }) => {
   return (
     <>
-      <h2>Blogs</h2>
+      <H2>Blogs</H2>
       {blogs.map((blog) => (
         <Blogs key={blog.id} blog={blog} />
       ))}

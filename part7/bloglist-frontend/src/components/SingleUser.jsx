@@ -2,6 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import { useParams } from "react-router-dom";
 import fetchSrevice from "../services/fetchSrevice";
+import H2 from "./ui/H2";
+import H3 from "./ui/H3";
 
 const SingleUser = () => {
   const { id } = useParams();
@@ -26,8 +28,8 @@ const SingleUser = () => {
 
   return (
     <div>
-      <h3>{user?.username}</h3>
-      <h4>added blogs </h4>
+      <H2>{user?.username}</H2>
+      <H3>added blogs </H3>
       {user.blogs.map((blog) => {
         return (
           <ul key={blog.id}>
