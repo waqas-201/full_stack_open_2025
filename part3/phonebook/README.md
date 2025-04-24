@@ -7,7 +7,7 @@ This is a simple RESTful API for managing a phonebook. It allows you to create, 
 ## 🌐 Base URL
 
 ```
-http://13.201.42.163:3000/
+http://13.233.86.68:3000/
 ```
 
 ---
@@ -18,7 +18,7 @@ http://13.201.42.163:3000/
 
 - **Method:** `GET`
 - **Endpoint:** `/api/persons`
-- **Full URL:** [http://13.201.42.163:3000/api/persons](http://13.201.42.163:3000/api/persons)
+- **Full URL:** [http://13.233.86.68:3000/api/persons]
 - **Description:** Retrieves all contacts from the phonebook.
 
 ---
@@ -27,7 +27,7 @@ http://13.201.42.163:3000/
 
 - **Method:** `GET`
 - **Endpoint:** `/api/persons/:id`
-- **Full URL:** `http://13.201.42.163:3000/api/persons/<id>`
+- **Full URL:** `http://13.233.86.68:3000/api/persons/<id>`
 - **Description:** Fetch a specific contact using its unique ID.
 
 ---
@@ -36,7 +36,7 @@ http://13.201.42.163:3000/
 
 - **Method:** `POST`
 - **Endpoint:** `/api/persons`
-- **Full URL:** [http://13.201.42.163:3000/api/persons](http://13.201.42.163:3000/api/persons)
+- **Full URL:** [http://13.233.86.68:3000/api/persons](http://13.201.42.163:3000/api/persons)
 - **Request Body:**
   ```json
   {
@@ -52,7 +52,7 @@ http://13.201.42.163:3000/
 
 - **Method:** `PUT`
 - **Endpoint:** `/api/persons`
-- **Full URL:** [http://13.201.42.163:3000/api/persons](http://13.201.42.163:3000/api/persons)
+- **Full URL:** [http://13.233.86.68:3000//api/persons](http://13.201.42.163:3000/api/persons)
 - **Request Body:**
   ```json
   {
@@ -68,7 +68,7 @@ http://13.201.42.163:3000/
 
 - **Method:** `DELETE`
 - **Endpoint:** `/api/persons/:id`
-- **Full URL:** `http://13.201.42.163:3000/api/persons/<id>`
+- **Full URL:** `http://13.233.86.68:3000/api/persons/<id>`
 - **Description:** Deletes the contact with the specified ID.
 
 ---
@@ -77,7 +77,7 @@ http://13.201.42.163:3000/
 
 - **Method:** `GET`
 - **Endpoint:** `/info`
-- **Full URL:** [http://13.201.42.163:3000/info](http://13.201.42.163:3000/info)
+- **Full URL:** [http://13.233.86.68:3000/info](http://13.201.42.163:3000/info)
 - **Description:** Returns the total number of entries and the current server time.
 
 
